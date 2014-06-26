@@ -1,0 +1,28 @@
+.container.body-content {
+	margin-top: 70px;
+}
+
+.nav-tabs {
+	margin-bottom: 15px;
+}
+
+.dl-horizontal dt {
+	text-align: left;
+}
+
+.dl-horizontal dd {
+	margin-left: 100px;
+}
+
+.profile_info {
+	margin-top: 10px;
+}
+
+.glyphicon {
+	margin-right: 5px;
+}
+
+.badge_table td {
+	text-align: center;
+	width: 20%;
+}
