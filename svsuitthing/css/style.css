@@ -27,10 +27,14 @@
 	width: 20%;
 }
 
-.student_table tr:hover {
+.admin_table tr:hover {
 	cursor: pointer;
 }
 
 .modal_x {
 	color: #727272;
+}
+
+.admin_badge {
+	max-width: 50px;
 }
