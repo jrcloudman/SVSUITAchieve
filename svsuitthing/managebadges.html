@@ -4,11 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ITS Support Center - REC/HHS</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
-    <link href="css/bootstrap-select.min.css" rel="stylesheet"/>
-    <link href="css/style.css" rel="stylesheet"/>
-
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="css/jasny-bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
 	<div class="navbar navbar-default navbar-fixed-top">
@@ -80,7 +79,42 @@
 			        </div>
 			        <div class="modal-body">
 			        	<form class="form-horizontal" id="studentForm" method="post">
-	        				
+			        		<div class="form-group">
+				        		<div class="fileinput fileinput-new" data-provides="fileinput">
+			        				<div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
+			        				<div>
+			        					<span class="btn btn-primary btn-file"><span class="fileinput-new">Select Image</span><span class="fileinput-exists">Change</span><input type="file" id="badge-file" name="badgeFile"></span>
+			        					<a href="#" class="btn btn-primary fileinput-exists" data-dismiss="fileinput">Remove</a>
+		        					</div>
+				        		</div>
+			        		</div>
+        					<div class="form-group">
+    							<label for="badgeName" class="col-md-4 control-label">Badge Name</label>
+    							<div class="col-md-7">
+	        						<input type="text" class="form-control" id="badgeName" name="badgeName" placeholder="Badge Name">
+    							</div>
+        					</div>
+        					<div class="form-group">
+    							<label for="badgeDescription" class="col-md-4 control-label">Badge Description</label>
+    							<div class="col-md-7">
+    								<textarea class="form-control" rows="3" id="badgeDescription" name="badgeDescription"></textarea>
+    							</div>
+        					</div>
+        					<div class="form-group">
+    							<label for="badgeType" class="col-md-4 control-label">Badge Type</label>
+    							<div class="col-md-7">
+									<div class="radio">
+										<span class="tooltipped" data-toggle="tooltip" data-placement="right" title="Earned once and does not reset">
+											<input type="radio" name="badgeType" name="standard" checked> Standard
+										</span>
+									</div>
+									<div class="radio">
+										<span class="tooltipped" data-toggle="tooltip" data-placement="right" title="Resets at the beginning of each semester to be earned multiple times">
+											<input type="radio" name="badgeType" id="recurring" name="fullPermissions"> Semester Recurring
+										</span>
+									</div>    							
+								</div>
+        					</div>
 			        	</form>
 			        </div>
 			        <div class="modal-footer">
@@ -93,16 +127,15 @@
 	</div>
 	<script src="scripts/jquery-1.11.0.min.js"></script>
 	<script src="scripts/bootstrap.min.js"></script>
-	<script src="scripts/moment.min.js"></script>
-	<script src="scripts/bootstrap-datetimepicker.js"></script>
 	<script src="scripts/bootstrap-select.min.js"></script>
 	<script src="scripts/jquery.dataTables.min.js"></script>
 	<script src="scripts/dataTables.bootstrap.js"></script>
+	<script src="scripts/jasny-bootstrap.min.js"></script>
 	<script>
 		$(function() {
+			$('.tooltipped').tooltip();
 			$('.selectpicker').selectpicker();
 			$('#badge_table').DataTable({
-
 			});
 		});
 	</script>
