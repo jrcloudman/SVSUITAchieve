@@ -127,6 +127,16 @@
     							</div>
         					</div>
         					<div class="form-group">
+        						<label for="badgeGroup" class="col-md-4 control-label">Badge Group</label>
+        						<div class="col-md-7">
+    								<select class="form-control" id="badgeGroup" name="badgeGroup">
+										<option>Basic Training</option>
+										<option>Standard Badges</option>
+										<option>Semester Rewards</option>
+    								</select>
+        						</div>
+        					</div>
+        					<div class="form-group">
     							<label for="badgeType" class="col-md-4 control-label">Badge Type</label>
     							<div class="col-md-7">
 									<div class="radio">
@@ -135,8 +145,8 @@
 										</span>
 									</div>
 									<div class="radio">
-										<span class="tooltipped" data-toggle="tooltip" data-placement="right" title="Resets at the beginning of each semester to be earned multiple times">
-											<input type="radio" name="badgeType" id="recurring" name="fullPermissions"> Semester Recurring
+										<span class="tooltipped" data-toggle="tooltip" data-placement="right" title="Resets at the desired expiration date to be earned multiple times">
+											<input type="radio" name="badgeType" id="recurring" name="fullPermissions">Recurring
 										</span>
 									</div>    							
 								</div>

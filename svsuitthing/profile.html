@@ -92,37 +92,37 @@
 										<table class="table badge_table">
 											<tr>
 												<td>
-													<a href="#"><img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Turned on the EN110 office computer"/></a>
+													<img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Turned on the EN110 office computer"/>
 													<div class="caption">Is the Power Turned On?</div>
 												</td>
 												<td>
-													<a href="#"><img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Took a support call"/></a>
+													<img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Took a support call"/>
 													<div class="caption">IT Support, How May I Help You?</div>
 												</td>												
 												<td>
-													<a href="#"><img src="images/badge.png" class="badgeImage faded" data-toggle="tooltip" data-placement="top" title="Attended Cherwell training"/></a>
+													<img src="images/badge.png" class="badgeImage faded" data-toggle="tooltip" data-placement="top" title="Attended Cherwell training"/>
 													<div class="caption">Student of Cherwell</div>
 												</td>												
 												<td>
-													<a href="#"><img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Assisted with an Echo360 recording"/></a>
+													<img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Assisted with an Echo360 recording"/>
 													<div class="caption">Lecture Captured</div>
 												</td>												
 												<td>
-													<a href="#"><img src="images/badge.png" class="badgeImage faded" data-toggle="tooltip" data-placement="top" title="Attended Microsoft Office training"/></a>
+													<img src="images/badge.png" class="badgeImage faded" data-toggle="tooltip" data-placement="top" title="Attended Microsoft Office training"/>
 													<div class="caption">Office Executive</div>
 												</td>
 											</tr>
 											<tr>
 												<td>
-													<a href="#"><img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Self explanatory"/></a>
+													<img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Self explanatory"/>
 													<div class="caption">Bought Jeff Lunch</div>
 												</td>
 												<td>
-													<a href="#"><img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Loaded over 100 reams of paper into computer labs"/></a>
+													<img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Loaded over 100 reams of paper into computer labs"/>
 													<div class="caption">Paper Master</div>
 												</td>												
 												<td>
-													<a href="#"><img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Retrieved paper from the loading dock"/></a>
+													<img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Retrieved paper from the loading dock"/>
 													<div class="caption">Do You Even Lift?</div>
 												</td>
 											</tr>
@@ -162,6 +162,14 @@
 		$(function() {
 			$('.tooltipped').tooltip();
 			$('.badgeImage').tooltip();
+			$('.badgeImage').click(function() {
+				if($(this).hasClass('faded')) {
+					$(this).removeClass('faded');
+				}
+				else {
+					$(this).addClass('faded');
+				}
+			});
 		});
 	</script>
 </body>

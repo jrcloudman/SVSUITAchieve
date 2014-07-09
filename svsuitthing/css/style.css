@@ -75,3 +75,7 @@
     cursor: inherit;
     display: block;
 }
+
+.badgeImage:hover {
+	cursor: pointer;
+}
