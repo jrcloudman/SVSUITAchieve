@@ -6,14 +6,12 @@
 	margin-bottom: 15px;
 }
 
-.dl-horizontal dt {
-	text-align: left;
+#loginForm {
+	margin: 0 auto;
+	float: none;
 }
 
-.dl-horizontal dd {
-	margin-left: 100px;
-}
-
+/*Profile*/
 .profile_info {
 	margin-top: 10px;
 }
@@ -31,6 +29,12 @@
 	opacity: 0.12;
 	filter: alpha(opacity=12);
 }
+
+.badgeImage:hover {
+	cursor: pointer;
+}
+
+/*Admin*/
 .admin_table tr:hover {
 	cursor: pointer;
 }
@@ -74,8 +78,4 @@
     background: white;
     cursor: inherit;
     display: block;
-}
-
-.badgeImage:hover {
-	cursor: pointer;
 }
