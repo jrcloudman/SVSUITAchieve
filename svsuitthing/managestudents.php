@@ -66,7 +66,7 @@
 				        <h4 class="modal-title" id="myModalLabel">Add New Student</h4>
 			        </div>
 			        <div class="modal-body">
-			        	<form class="form-horizontal" id="studentForm" method="post">
+			        	<form class="form-horizontal" id="studentForm" method="post" action="lib/student.php">
 	        				<div class="form-group">
 	        					<label for="studentName" class="col-md-4 control-label">Name</label>
 	        					<div class="col-md-3">
@@ -101,7 +101,7 @@
 			        </div>
 			        <div class="modal-footer">
 				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        <button type="button" class="btn btn-primary">Add</button>
+				        <button type="button" class="btn btn-primary" id="addStudentSubmit">Add</button>
 			        </div>
 		    	</div>
 		    </div>
@@ -111,6 +111,7 @@
 	<script src="scripts/bootstrap.min.js"></script>
 	<script src="scripts/moment.min.js"></script>
 	<script src="scripts/bootstrap-datetimepicker.js"></script>
+	<script src="scripts/managestudents.js"></script>
 	<script>
 		$(function() {
 			$('#startDate').datetimepicker({

@@ -17,20 +17,22 @@
 			<div class="col-md-9">
 				<table class="table table-hover admin_table">
 					<thead>
-						<tr>
+						<tr id="tableHeader">
 							<th>Id</th><th>Group Name</th><th>Date Added</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>1</td><td>IT Support Center - REC/HHS</td><td>6/28/14</td>
-						</tr>
-						<tr>
-							<td>2</td><td>IT Support Center - Main Campus</td><td>7/10/14</td>
-						</tr>
+						<?php
+							require_once('lib/mysqli_connect.php');
+							$sql = "SELECT * FROM studentgroup";
+							$groups = mysqli_query($dbc, $sql);
+							while($row = mysqli_fetch_array($groups)) {
+								echo '<tr><td class="groupId">' . $row['groupId'] . '</td><td class="groupName">' . $row['groupName'] . '</td><td>' . $row['dateAdded'] . '</td></tr>';
+							}
+						?>
 					</tbody>
 				</table>
-				<button class="btn btn-primary" data-toggle="modal" data-target="#adminModal">Add Group</button>
+				<button class="btn btn-primary" id="newGroupBtn" data-toggle="modal" data-target="#adminModal">Add Group</button>
 			</div>
 		</div>
 		<div class="modal fade" id="adminModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -41,18 +43,21 @@
 				        <h4 class="modal-title" id="myModalLabel">Add New Group</h4>
 			        </div>
 			        <div class="modal-body">
-			        	<form class="form-horizontal" id="adminForm" method="post">
+			        	<form class="form-horizontal" id="groupForm" method="post">
 	        				<div class="form-group">
 	        					<label for="groupName" class="col-md-4 control-label">Group Name</label>
 	        					<div class="col-md-7">
 	        						<input type="text" class="form-control" id="groupName" name="groupName" placeholder="Group Name">
         						</div>
 	        				</div>
+	        				<input type="hidden" name="groupId" id="groupId" value="">
+	        				<input type="hidden" name="action" id="action" value="add">
 			        	</form>
 			        </div>
 			        <div class="modal-footer">
 				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        <button type="button" class="btn btn-primary">Add</button>
+				        <button type="button" class="btn btn-danger" id="groupFormDelete">Delete Group</button>
+				        <button type="button" class="btn btn-primary" id="groupFormSubmit">Add</button>
 			        </div>
 		    	</div>
 		    </div>
@@ -61,10 +66,6 @@
 	<script src="scripts/jquery-1.11.0.min.js"></script>
 	<script src="scripts/bootstrap.min.js"></script>
 	<script src="scripts/bootstrap-select.min.js"></script>
-	<script>
-		$(function() {
-			$('.selectpicker').selectpicker();
-		});
-	</script>
+	<script src="scripts/managegroups.js"></script>
 </body>
 </html>
