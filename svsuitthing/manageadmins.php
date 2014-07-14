@@ -22,15 +22,19 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>5</td><td>Jeff</td><td>Roberts</td><td>jjr<td>Full</td><td>6/30/14</td>
-						</tr>
-						<tr>
-							<td>6</td><td>Test</td><td>Man</td><td>testman<td>Group</td><td>6/30/14</td>
-						</tr>
+						<?php
+							require_once('lib/mysqli_connect.php');
+							$sql = "SELECT adminId, firstName, lastName, username, dateAdded, permissions FROM admin";
+							$groups = mysqli_query($dbc, $sql);
+							while($row = mysqli_fetch_array($groups)) {
+								$permissions = 'Group';
+								if($row['permissions'] == 1) $permissions = 'Full';
+								echo '<tr><td class="adminId">' . $row['adminId'] . '</td><td class="firstName">' . $row['firstName'] . '</td><td class="lastName">' . $row['lastName'] . '</td><td class="username">' . $row['username'] . '</td><td class="permissions">' . $permissions . '</td><td>' . $row['dateAdded'] . '</td></tr>';
+							}
+						?>
 					</tbody>
 				</table>
-				<button class="btn btn-primary" data-toggle="modal" data-target="#adminModal">Add Administrator</button>
+				<button class="btn btn-primary" data-toggle="modal" data-target="#adminModal" id="newAdminBtn">Add Administrator</button>
 			</div>
 		</div>
 		<div class="modal fade" id="adminModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -80,7 +84,7 @@
 	        				<div class="form-group">
     							<label for="groups" class="col-md-4 control-label">Groups</label>
     							<div class="col-md-7">
-    								<select class="selectpicker" multiple>
+    								<select class="selectpicker" name="groups" id="groups" multiple>
 										<option>IT Support Center - REC/HHS</option>
 										<option>IT Support Center - Main Campus</option>
     								</select>
@@ -90,7 +94,8 @@
 			        </div>
 			        <div class="modal-footer">
 				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        <button type="button" class="btn btn-primary">Add</button>
+			        	<button type="button" class="btn btn-danger" id="adminFormDelete">Delete Administrator</button>
+				        <button type="button" class="btn btn-primary" id="adminFormSubmit">Add</button>
 			        </div>
 		    	</div>
 		    </div>
@@ -99,6 +104,7 @@
 	<script src="scripts/jquery-1.11.0.min.js"></script>
 	<script src="scripts/bootstrap.min.js"></script>
 	<script src="scripts/bootstrap-select.min.js"></script>
+	<script src="scripts/manageadmins.js"></script>
 	<script>
 		$(function() {
 			$('.selectpicker').selectpicker();

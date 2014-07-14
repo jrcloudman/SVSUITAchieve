@@ -4,7 +4,7 @@ USE `svsuitachieve_db`;
 --
 -- Host: 127.0.0.1    Database: svsuitachieve_db
 -- ------------------------------------------------------
--- Server version	5.5.24-log
+-- Server version	5.6.12-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -37,6 +37,15 @@ CREATE TABLE `admin` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `admin`
+--
+
+LOCK TABLES `admin` WRITE;
+/*!40000 ALTER TABLE `admin` DISABLE KEYS */;
+/*!40000 ALTER TABLE `admin` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `admin_group`
 --
 
@@ -49,10 +58,18 @@ CREATE TABLE `admin_group` (
   KEY `groupId` (`groupId`),
   KEY `adminId` (`adminId`),
   KEY `adminId_2` (`adminId`),
-  CONSTRAINT `admin_group_ibfk_2` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`),
-  CONSTRAINT `admin_group_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `group` (`groupId`)
+  CONSTRAINT `admin_group_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `studentgroup` (`groupId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `admin_group`
+--
+
+LOCK TABLES `admin_group` WRITE;
+/*!40000 ALTER TABLE `admin_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `admin_group` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `badge`
@@ -73,9 +90,18 @@ CREATE TABLE `badge` (
   `expirationDate` date DEFAULT NULL,
   PRIMARY KEY (`badgeId`),
   KEY `groupId` (`groupId`),
-  CONSTRAINT `badge_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `group` (`groupId`)
+  CONSTRAINT `badge_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `studentgroup` (`groupId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `badge`
+--
+
+LOCK TABLES `badge` WRITE;
+/*!40000 ALTER TABLE `badge` DISABLE KEYS */;
+/*!40000 ALTER TABLE `badge` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `badgegroup`
@@ -90,24 +116,18 @@ CREATE TABLE `badgegroup` (
   `groupId` int(10) unsigned NOT NULL,
   PRIMARY KEY (`badgegroupId`),
   KEY `groupId` (`groupId`),
-  CONSTRAINT `badgegroup_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `group` (`groupId`)
+  CONSTRAINT `badgegroup_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `studentgroup` (`groupId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `group`
+-- Dumping data for table `badgegroup`
 --
 
-DROP TABLE IF EXISTS `group`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `group` (
-  `groupId` int(11) unsigned NOT NULL,
-  `groupName` varchar(45) NOT NULL,
-  PRIMARY KEY (`groupId`),
-  KEY `groupId` (`groupId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `badgegroup` WRITE;
+/*!40000 ALTER TABLE `badgegroup` DISABLE KEYS */;
+/*!40000 ALTER TABLE `badgegroup` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `student`
@@ -134,9 +154,18 @@ CREATE TABLE `student` (
   UNIQUE KEY `studentId_UNIQUE` (`studentId`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `groupId` (`groupId`),
-  CONSTRAINT `student_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `group` (`groupId`)
+  CONSTRAINT `student_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `studentgroup` (`groupId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `student`
+--
+
+LOCK TABLES `student` WRITE;
+/*!40000 ALTER TABLE `student` DISABLE KEYS */;
+/*!40000 ALTER TABLE `student` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `student_badge`
@@ -155,6 +184,41 @@ CREATE TABLE `student_badge` (
   CONSTRAINT `student_badge_ibfk_1` FOREIGN KEY (`badgeId`) REFERENCES `badge` (`badgeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `student_badge`
+--
+
+LOCK TABLES `student_badge` WRITE;
+/*!40000 ALTER TABLE `student_badge` DISABLE KEYS */;
+/*!40000 ALTER TABLE `student_badge` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `studentgroup`
+--
+
+DROP TABLE IF EXISTS `studentgroup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `studentgroup` (
+  `groupId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `groupName` varchar(45) NOT NULL,
+  `dateAdded` date NOT NULL,
+  PRIMARY KEY (`groupId`),
+  KEY `groupId` (`groupId`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `studentgroup`
+--
+
+LOCK TABLES `studentgroup` WRITE;
+/*!40000 ALTER TABLE `studentgroup` DISABLE KEYS */;
+INSERT INTO `studentgroup` VALUES (4,'Rectechs','2014-07-14'),(5,'Bleh','2014-07-14');
+/*!40000 ALTER TABLE `studentgroup` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -165,4 +229,4 @@ CREATE TABLE `student_badge` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-11 22:53:50
+-- Dump completed on 2014-07-14 17:11:12

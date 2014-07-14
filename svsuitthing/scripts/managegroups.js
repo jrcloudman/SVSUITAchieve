@@ -2,7 +2,7 @@ $(function() {
 	$('#groupForm').submit(function(event) {
 		event.preventDefault();
 		var formData = $(this).serialize();
-		$.post( "lib/group.php", formData, function( data ) {
+		$.post("lib/group.php", formData, function( data ) {
 	  		location.reload();
 		});
 	});
