@@ -17,7 +17,7 @@
 			<div class="col-md-9">
 				<table class="table table-hover admin_table">
 					<thead>
-						<tr>
+						<tr id="tableHeader">
 							<th>Id</th><th>First Name</th><th>Last Name</th><th>Username</th><th>Permissions</th><th>Date Added</th>
 						</tr>
 					</thead>

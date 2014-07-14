@@ -20,9 +20,8 @@ $(function() {
 		var adminId = $(this).find('td.adminId').html();
 		$('#myModalLabel').html("Edit Administrator #" + adminId);
 		$('#adminFormSubmit').html('Save Changes');
-		$('#groupName').val($(this).find('td.groupName').html());
 		$('#action').val('modify');
-		$('#adminId').val(groupId);
+		$('#adminId').val(adminId);
 		$('#adminFormDelete').show();
 		$('#adminModal').modal('show');
 	});
