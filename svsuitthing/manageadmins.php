@@ -25,8 +25,8 @@
 						<?php
 							require_once('lib/mysqli_connect.php');
 							$sql = "SELECT adminId, firstName, lastName, username, dateAdded, permissions FROM admin";
-							$groups = mysqli_query($dbc, $sql);
-							while($row = mysqli_fetch_array($groups)) {
+							$admins= mysqli_query($dbc, $sql);
+							while($row = mysqli_fetch_assoc($admins)) {
 								$permissions = 'Group';
 								if($row['permissions'] == 1) $permissions = 'Full';
 								echo '<tr><td class="adminId">' . $row['adminId'] . '</td><td class="firstName">' . $row['firstName'] . '</td><td class="lastName">' . $row['lastName'] . '</td><td class="username">' . $row['username'] . '</td><td class="permissions">' . $permissions . '</td><td>' . $row['dateAdded'] . '</td></tr>';
@@ -68,28 +68,36 @@
         						</div>
         						<div class="col-md-3">
         							<button type="button" class="btn btn-primary" id="generatePassword">Generate</button>
+        							<button type="button" class="btn btn-warning" id="resetPassword">Reset Password</button>
     							</div>
 	        				</div>
 	        				<div class="form-group">
     							<label for="permissions" class="col-md-4 control-label">Permissions</label>
     							<div class="col-md-7">
 									<div class="radio">
-										<input type="radio" name="permissions" id="permissions" name="groupPermissions" checked> Group
+										<input type="radio" name="permissions" id="permissions" value="2" checked> Group
 									</div>
 									<div class="radio">
-										<input type="radio" name="permissions" id="permissions" name="fullPermissions"> Full
+										<input type="radio" name="permissions" id="permissions" value="1"> Full
 									</div>
     							</div>
 	        				</div>
 	        				<div class="form-group">
     							<label for="groups" class="col-md-4 control-label">Groups</label>
     							<div class="col-md-7">
-    								<select class="selectpicker" name="groups" id="groups" multiple>
-										<option>IT Support Center - REC/HHS</option>
-										<option>IT Support Center - Main Campus</option>
+    								<select class="selectpicker	" name="groups[]" id="groups" data-width="100%" multiple>
+										<?php
+											$sql = "SELECT groupId, groupName FROM studentgroup ORDER BY groupName";
+											$groups = mysqli_query($dbc, $sql);
+											while($row = mysqli_fetch_assoc($groups)) {
+												echo '<option value="' . $row['groupId'] . '">' . $row['groupName'] . '</option>';
+											}
+										?>
     								</select>
     							</div>
 	        				</div>
+	        				<input type="hidden" name="adminId" id="adminId" value="">
+	        				<input type="hidden" name="action" id="action" value="add">
 			        	</form>
 			        </div>
 			        <div class="modal-footer">
@@ -105,10 +113,5 @@
 	<script src="scripts/bootstrap.min.js"></script>
 	<script src="scripts/bootstrap-select.min.js"></script>
 	<script src="scripts/manageadmins.js"></script>
-	<script>
-		$(function() {
-			$('.selectpicker').selectpicker();
-		});
-	</script>
 </body>
 </html>

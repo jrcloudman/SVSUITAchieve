@@ -57,7 +57,7 @@ function create_hash($password)
 function validate_password($password, $good_hash)
 {
     $params = explode(":", $good_hash);
-    if(count($params) &lt; HASH_SECTIONS)
+    if(count($params) < HASH_SECTIONS)
        return false;
     $pbkdf2 = base64_decode($params[HASH_PBKDF2_INDEX]);
     return slow_equals(
@@ -77,7 +77,7 @@ function validate_password($password, $good_hash)
 function slow_equals($a, $b)
 {
     $diff = strlen($a) ^ strlen($b);
-    for($i = 0; $i &lt; strlen($a) &amp;&amp; $i &lt; strlen($b); $i++)
+    for($i = 0; $i < strlen($a) && $i < strlen($b); $i++)
     {
         $diff |= ord($a[$i]) ^ ord($b[$i]);
     }
@@ -104,7 +104,7 @@ function pbkdf2($algorithm, $password, $salt, $count, $key_length, $raw_output =
     $algorithm = strtolower($algorithm);
     if(!in_array($algorithm, hash_algos(), true))
         trigger_error('PBKDF2 ERROR: Invalid hash algorithm.', E_USER_ERROR);
-    if($count &lt;= 0 || $key_length &lt;= 0)
+    if($count <= 0 || $key_length <= 0)
         trigger_error('PBKDF2 ERROR: Invalid parameters.', E_USER_ERROR);
 
     if (function_exists("hash_pbkdf2")) {
@@ -119,13 +119,13 @@ function pbkdf2($algorithm, $password, $salt, $count, $key_length, $raw_output =
     $block_count = ceil($key_length / $hash_length);
 
     $output = "";
-    for($i = 1; $i &lt;= $block_count; $i++) {
+    for($i = 1; $i <= $block_count; $i++) {
         // $i encoded as 4 bytes, big endian.
         $last = $salt . pack("N", $i);
         // first iteration
         $last = $xorsum = hash_hmac($algorithm, $last, $password, true);
         // perform the other $count - 1 iterations
-        for ($j = 1; $j &lt; $count; $j++) {
+        for ($j = 1; $j < $count; $j++) {
             $xorsum ^= ($last = hash_hmac($algorithm, $last, $password, true));
         }
         $output .= $xorsum;

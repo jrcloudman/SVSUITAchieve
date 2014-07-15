@@ -26,7 +26,7 @@
 							require_once('lib/mysqli_connect.php');
 							$sql = "SELECT * FROM studentgroup";
 							$groups = mysqli_query($dbc, $sql);
-							while($row = mysqli_fetch_array($groups)) {
+							while($row = mysqli_fetch_assoc($groups)) {
 								echo '<tr><td class="groupId">' . $row['groupId'] . '</td><td class="groupName">' . $row['groupName'] . '</td><td>' . $row['dateAdded'] . '</td></tr>';
 							}
 						?>
