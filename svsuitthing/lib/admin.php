@@ -22,32 +22,53 @@
 				$firstName = mysqli_real_escape_string($dbc, $_POST["firstName"]);
 				$lastName = mysqli_real_escape_string($dbc, $_POST["lastName"]);
 				$username = mysqli_real_escape_string($dbc, $_POST["username"]);
-				$password = mysqli_real_escape_string($dbc, $_POST["tempPassword"]);
 				$permissions = mysqli_real_escape_string($dbc, $_POST["permissions"]);
 			}
 			switch($action) {
 				case 'add':
+					$password = mysqli_real_escape_string($dbc, $_POST["tempPassword"]);
 					$saltedHash = create_hash($password);
 					$sql = "INSERT INTO admin(firstName, lastName, username, password, dateAdded, permissions) VALUES 
 							('$firstName', '$lastName', '$username', '$saltedHash', NOW(), $permissions)";
 					mysqli_query($dbc, $sql);
 					
 					if($permissions == 2) {
-						$adminId = mysqli_insert_id($dbc);
-						$sql = "INSERT INTO admin_group(adminId, groupId) VALUES ";
-						foreach($_POST['groups'] as $groupId) {
-							$sql .= "($adminId, $groupId),";
-						}
-						$sql = rtrim($sql, ",");
-						mysqli_query($dbc, $sql);
+						insertGroups($dbc, mysqli_insert_id($dbc));
 					}
 					break;
 				case 'modify':
-					
+					$adminId = mysqli_real_escape_string($dbc, $_POST["adminId"]);
+					$sqlPw = "";
+					if(isset($_POST['tempPassword'])) {
+						$password = mysqli_real_escape_string($dbc, $_POST["tempPassword"]);
+						$saltedHash = create_hash($password);
+						$sqlPw = "password='$saltedHash',";
+					}
+					$sql = "UPDATE admin SET firstName='$firstName', lastName='$lastName', username='$username', " . $sqlPw . "permissions='$permissions' WHERE adminId='$adminId'";
+					mysqli_query($dbc, $sql);
+					if($permissions == 2) { 
+						$sql = "DELETE FROM admin_group WHERE adminId='$adminId'";
+						mysqli_query($dbc, $sql);
+						insertGroups($dbc, $adminId);
+					}
 					break;
 				case 'delete':
+					$adminId = mysqli_real_escape_string($dbc, $_POST["adminId"]);
+					$sql = "DELETE FROM admin_group WHERE adminId = $adminId";
+					mysqli_query($dbc, $sql);
+					$sql = "DELETE FROM admin WHERE adminId = $adminId";
+					mysqli_query($dbc, $sql);
 					break;
 			}
 		}
+	}
+
+	function insertGroups($dbc, $adminId) {
+		$sql = "INSERT INTO admin_group(adminId, groupId) VALUES ";
+		foreach($_POST['groups'] as $groupId) {
+			$sql .= "($adminId, $groupId),";
+		}
+		$sql = rtrim($sql, ",");
+		mysqli_query($dbc, $sql);
 	}
 ?>

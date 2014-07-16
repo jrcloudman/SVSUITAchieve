@@ -45,7 +45,7 @@
 				        <h4 class="modal-title" id="myModalLabel">Add New Administrator</h4>
 			        </div>
 			        <div class="modal-body">
-			        	<form class="form-horizontal" id="adminForm" method="post">
+			        	<form class="form-horizontal" id="adminForm" action="lib/admin.php" method="post">
 	        				<div class="form-group">
 	        					<label for="studentName" class="col-md-4 control-label">Name</label>
 	        					<div class="col-md-3">
