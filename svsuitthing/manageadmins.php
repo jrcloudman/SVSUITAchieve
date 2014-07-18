@@ -1,3 +1,7 @@
+<?php
+	session_start();
+	//require_once('lib/session.php');
+?>
 <!DOCTYPE html>
 <html>
 <head>

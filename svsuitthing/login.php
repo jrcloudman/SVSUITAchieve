@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,9 +20,10 @@
 		</div>
 	</div>
 	<div class="container body-content">
-		<div class="col-md-6 well" id="loginForm">
-			<form class="form-horizontal">
+		<div class="col-md-6 well" id="loginFormContainer">
+			<form class="form-horizontal" id="loginForm" action="lib/validatelogin.php" method="post">
 				<legend>Login</legend>
+				<div class="alert alert-danger" role="alert" id="loginAlert" hidden>Your username or password is incorrect</div>
 				<div class="form-group">
 					<label for="username" class="col-md-4 control-label">Username</label>
 					<div class="col-md-8">
@@ -44,5 +46,6 @@
 	</div>
 	<script src="scripts/jquery-1.11.0.min.js"></script>
 	<script src="scripts/bootstrap.min.js"></script>
+	<script src="scripts/login.js"></script>
 </body>
 </html>
