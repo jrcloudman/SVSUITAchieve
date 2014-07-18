@@ -195,38 +195,10 @@
 	</div>
 	
 	<script src="scripts/jquery-1.11.0.min.js"></script>
+	<script src="scripts/profile.js"></script>
 	<script src="scripts/bootstrap.min.js"></script>
 	<script src="scripts/moment.min.js"></script>
 	<script src="scripts/bootstrap-datetimepicker.js"></script>
-
-	<script>
-		$(function() {
-			$('.tooltipped').tooltip();
-			$('.badgeImage').tooltip();
-			$('.badgeImage').click(function() {
-				if($(this).hasClass('faded')) {
-					$(this).removeClass('faded');
-				}
-				else {
-					$(this).addClass('faded');
-				}
-			});
-		});
-
-		// Added JQuery
-		$(function() {
-			$('#editStudent').click(function(){
-				$('#editModal').modal('show');
-			});
-		});
-
-		$(function() {
-			$('#expGradDate').datetimepicker({
-				pickTime: false
-			});
-		});
-		//
-	</script>
 
 </body>
 </html>

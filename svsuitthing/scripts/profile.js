@@ -9,7 +9,16 @@ $(function() {
 			$(this).addClass('faded');
 		}
 	});
-	$('#editLink').click(function() {
-		$('#adminModal').modal('show');
+});
+
+$(function() {
+	$('#editStudent').click(function(){
+		$('#editModal').modal('show');
+	});
+});
+
+$(function() {
+	$('#expGradDate').datetimepicker({
+		pickTime: false
 	});
 });
