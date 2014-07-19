@@ -3,7 +3,7 @@
 <?php
 
 // Connect to db
-if (isset($_POST['adminFormSubmit'])) {
+if (isset($_POST['studentFormSubmit'])) {
 	$con=mysqli_connect("localhost","root","","svsuitachieve_db");
 	
 	// Check connection
@@ -182,6 +182,8 @@ if (isset($_POST['adminFormSubmit'])) {
 							<div class="fileinput fileinput-new" data-provides="fileinput">
 								<div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
 								<div>
+									<span class="btn btn-primary btn-file"><span class="fileinput-new">Select Image</span><span class="fileinput-exists">Change</span><input type="file" id="badge-file" name="badgeFile"></span>
+									<a href="#" class="btn btn-primary fileinput-exists" data-dismiss="fileinput">Remove</a>
 								</div>
 							</div>
 						</div>
@@ -212,7 +214,7 @@ if (isset($_POST['adminFormSubmit'])) {
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary" id="adminFormSubmit" name="adminFormSubmit">Save</button>
+						<button type="submit" class="btn btn-primary" id="studentFormSubmit" name="studentFormSubmit">Save</button>
 					</div>
 				</form>
 			</div>
