@@ -1,5 +1,30 @@
 <!DOCTYPE html>
 <html>
+<?php
+
+// Connect to db
+if (isset($_POST['adminFormSubmit'])) {
+	$con=mysqli_connect("localhost","root","","svsuitachieve_db");
+	
+	// Check connection
+	if (mysqli_connect_errno()) {
+		echo "Failed to connect to MySQL: " . mysqli_connect_error();
+	}
+
+	// Assign equivalent values from $_POST array
+	$expDate = $_POST['expGradDate'];
+	$aboutMe = $_POST['aboutMe'];
+	$major   = $_POST['majorField'];
+	$minor   = $_POST['minorField'];
+
+	// Update db attributes
+	mysqli_query($con,"UPDATE student SET expectedGraduation='$expDate', aboutMe='$aboutMe', major='$major', minor='$minor'
+		WHERE FirstName='John' AND LastName='Smith'");
+
+	// Close db
+	mysqli_close($con);	
+}
+?>
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -152,7 +177,7 @@
 					<h4 class="modal-title" id="myModalLabel">Edit Profile</h4>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal" id="studentForm" method="post">
+					<form class="form-horizontal" id="studentForm" method="post" action="profile.php">
 						<div class="form-group">
 							<div class="fileinput fileinput-new" data-provides="fileinput">
 								<div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
@@ -163,7 +188,7 @@
 						<div class="form-group">
 							<label for="expGradDate" class="col-md-4 control-label">Expected Graduation Date</label>
 							<div class="col-md-7">
-								<input type="text" class="form-control" id="expGradDate" name="expGradDate">
+								<input type="text" data-date-format="YYYY/MM/DD" class="form-control" id="expGradDate" name="expGradDate">
 							</div>
 						</div> 
 						<div class="form-group">
@@ -184,16 +209,16 @@
 								<input type="text" class="form-control" id="minorField" name="minorField" placeholder="Edit Minor">
 							</div>
 						</div>       				
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" id="adminFormSubmit">Save</button>
-				</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary" id="adminFormSubmit" name="adminFormSubmit">Save</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
-	
+
 	<script src="scripts/jquery-1.11.0.min.js"></script>
 	<script src="scripts/profile.js"></script>
 	<script src="scripts/bootstrap.min.js"></script>
