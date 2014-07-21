@@ -9,15 +9,11 @@ $(function() {
 			$(this).addClass('faded');
 		}
 	});
-});
-
-$(function() {
+	
 	$('#editStudent').click(function(){
 		$('#editModal').modal('show');
 	});
-});
-
-$(function() {
+	
 	$('#expGradDate').datetimepicker({
 		pickTime: false
 	});

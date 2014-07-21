@@ -1,28 +1,21 @@
 <!DOCTYPE html>
 <html>
 <?php
-
+require_once('lib/mysqli_connect.php');
 // Connect to db
 if (isset($_POST['studentFormSubmit'])) {
-	$con=mysqli_connect("localhost","root","","svsuitachieve_db");
-	
-	// Check connection
-	if (mysqli_connect_errno()) {
-		echo "Failed to connect to MySQL: " . mysqli_connect_error();
-	}
-
 	// Assign equivalent values from $_POST array
-	$expDate = $_POST['expGradDate'];
-	$aboutMe = $_POST['aboutMe'];
-	$major   = $_POST['majorField'];
-	$minor   = $_POST['minorField'];
+	$expDate = mysqli_real_escape_string($dbc, $_POST['expGradDate']);
+	$aboutMe = mysqli_real_escape_string($dbc, $_POST['aboutMe']);
+	$major   = mysqli_real_escape_string($dbc, $_POST['majorField']);
+	$minor   = mysqli_real_escape_string($dbc, $_POST['minorField']);
 
 	// Update db attributes
-	mysqli_query($con,"UPDATE student SET expectedGraduation='$expDate', aboutMe='$aboutMe', major='$major', minor='$minor'
+	mysqli_query($dbc,"UPDATE student SET expectedGraduation='$expDate', aboutMe='$aboutMe', major='$major', minor='$minor'
 		WHERE FirstName='John' AND LastName='Smith'");
 
 	// Close db
-	mysqli_close($con);	
+	mysqli_close($dbc);	
 }
 ?>
 <head>
@@ -51,7 +44,7 @@ if (isset($_POST['studentFormSubmit'])) {
 					<div class="col-md-2">
 						<img src="images/ryan.jpg" class="profile img-responsive img-rounded" />
 						<ul class="list-unstyled profile_info">
-							<li id="editStudent"><span class="glyphicon glyphicon-pencil"></span><a href="#">Edit Profile</a></li><br />
+							<li id="editStudent"><span class="glyphicon glyphicon-pencil"></span><a href="#">Edit Profile...</a></li>
 							<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Start Date"><span class="glyphicon glyphicon-calendar"></span>Started August 21, 2011</li>
 							<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Email"><span class="glyphicon glyphicon-envelope"></span><a href="mailto:rcbickha@svsu.edu">rcbickha@svsu.edu</a></li>
 							<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Major"><span class="glyphicon glyphicon-star"></span>Computer Science</li>
@@ -190,25 +183,25 @@ if (isset($_POST['studentFormSubmit'])) {
 						<div class="form-group">
 							<label for="expGradDate" class="col-md-4 control-label">Expected Graduation Date</label>
 							<div class="col-md-7">
-								<input type="text" data-date-format="YYYY/MM/DD" class="form-control" id="expGradDate" name="expGradDate">
+								<input type="text" data-date-format="YYYY/MM/DD" class="form-control" id="expGradDate" name="expGradDate" placeholder="Expected Graduation Date">
 							</div>
 						</div> 
 						<div class="form-group">
 							<label for="aboutMe" class="col-md-4 control-label">About Me</label>
 							<div class="col-md-7">
-								<textarea class="form-control" rows="3" id="aboutMe" name="aboutMe" placeholder="Edit About Me"></textarea>
+								<textarea class="form-control" rows="3" id="aboutMe" name="aboutMe" placeholder="About Me"></textarea>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="majorField" class="col-md-4 control-label">Major</label>
 							<div class="col-md-5">
-								<input type="text" class="form-control" id="majorField" name="majorField" placeholder="Edit Major">
+								<input type="text" class="form-control" id="majorField" name="majorField" placeholder="Major">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="minorField" class="col-md-4 control-label">Minor</label>
 							<div class="col-md-5">
-								<input type="text" class="form-control" id="minorField" name="minorField" placeholder="Edit Minor">
+								<input type="text" class="form-control" id="minorField" name="minorField" placeholder="Minor">
 							</div>
 						</div>       				
 					</div>
@@ -226,6 +219,5 @@ if (isset($_POST['studentFormSubmit'])) {
 	<script src="scripts/bootstrap.min.js"></script>
 	<script src="scripts/moment.min.js"></script>
 	<script src="scripts/bootstrap-datetimepicker.js"></script>
-
 </body>
 </html>
