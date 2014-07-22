@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,46 +17,49 @@
 			<?php include 'adminnav.php'; ?>
 			<div class="col-md-9">
 				<ul class="nav nav-tabs">
-					<li class="active"><a href="#group1" data-toggle="tab">IT Support Center - REC/HHS</a></li>
-					<li><a href="#group2" data-toggle="tab">IT Support Center - Main Campus</a></li>
+					<?php
+						require_once('lib/mysqli_connect.php');
+						$sql = "SELECT groupId, groupName FROM studentgroup WHERE ";
+						for($i = 0; $i < sizeof($_SESSION['groups']) - 1; $i++) {
+							$groupId = $_SESSION['groups'][$i];
+							$sql .= "groupId = $groupId OR ";
+						}
+						$groupId = $_SESSION['groups'][$i];
+						$sql .= "groupId = $groupId";
+						$result = mysqli_query($dbc, $sql);
+						$first = true;
+						while($row = mysqli_fetch_assoc($result)) {
+							echo '<li';
+							if($first) {
+								echo ' class="active"';
+								$first = false;
+							}
+							echo '><a href="#group' . $row['groupId']  . '" data-toggle="tab">' . $row['groupName'] . '</a></li>';
+						}
+					?>
 				</ul>
 				<div class="tab-content">
-					<div class="tab-pane active in" id="group1">
-						<table class="table table-hover admin_table">
-							<thead>
-								<tr>
-									<th>Id</th><th>First Name</th><th>Last Name</th><th>Username</th><th>Start Date</th><th>Date Added</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>1</td><td>Ryan</td><td>Bickham</td><td>rcbickha<td>8/21/2011</td><td>6/28/14</td>
-								</tr>
-								<tr>
-									<td>2</td><td>Eric</td><td>DeSmet</td><td>eadesmet<td>8/26/2012</td><td>6/28/14</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="tab-pane" id="group2">
-						<table class="table table-hover admin_table">
-							<thead>
-								<tr>
-									<th>Id</th><th>First Name</th><th>Last Name</th><th>Username</th><th>Start Date</th><th>Date Added</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>3</td><td>John</td><td>Smith</td><td>jdsmith9<td>8/18/2013</td><td>6/29/14</td>
-								</tr>
-								<tr>
-									<td>4</td><td>Jane</td><td>Doe</td><td>jedoe3<td>7/1/2013</td><td>6/29/14</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<button class="btn btn-primary" data-toggle="modal" data-target="#studentModal">Add Student</button>
+				<?php
+					$first = true;
+					foreach($_SESSION['groups'] as $groupId) {
+						echo '<div class="tab-pane';
+						if($first) {
+							echo ' active in';
+							$first = false;
+						}
+						echo '" id=group' . $groupId . '>';
+						echo '<table class="table table-hover admin_table">';
+						echo '<thead><tr><th>Id</th><th>First Name</th><th>Last Name</th><th>Username</th><th>Start Date</th><th>Date Added</th></tr></thead>';
+						echo '<tbody>';
+						$sql = "SELECT studentId, firstName, lastName, username, startDate, dateAdded FROM student WHERE groupId=$groupId";
+						$result = mysqli_query($dbc, $sql);
+						while($row = mysqli_fetch_assoc($result)) {
+							echo '<tr><td class="studentId">' . $row['studentId'] . '</td><td>' . $row['firstName'] . '</td><td>' . $row['lastName'] . '</td><td>' . $row['username'] . '</td><td>' . $row['startDate'] . '</td><td>' . $row['dateAdded'] . '</td></tr>';
+						}
+						echo '</tbody></table></div>';
+					}				
+				?>
+				<button class="btn btn-primary" data-toggle="modal" data-target="#studentModal" id="newStudentBtn">Add Student</button>
 			</div>
 		</div>
 		<div class="modal fade" id="studentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -66,7 +70,7 @@
 				        <h4 class="modal-title" id="myModalLabel">Add New Student</h4>
 			        </div>
 			        <div class="modal-body">
-			        	<form class="form-horizontal" id="studentForm" method="post" action="lib/student.php">
+			        	<form class="form-horizontal" id="studentForm" method="post">
 	        				<div class="form-group">
 	        					<label for="studentName" class="col-md-4 control-label">Name</label>
 	        					<div class="col-md-3">
@@ -95,13 +99,18 @@
         						</div>
         						<div class="col-md-3">
         							<button type="button" class="btn btn-primary" id="generatePassword">Generate</button>
+        							<button type="button" class="btn btn-warning" id="resetPassword">Reset Password</button>
     							</div>
 	        				</div>
+	        				<input type="hidden" name="groupId" id="groupId" value="">
+	        				<input type="hidden" name="studentId" id="studentId" value="">
+	        				<input type="hidden" name="action" id="action" value="add">
 			        	</form>
 			        </div>
 			        <div class="modal-footer">
 				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        <button type="button" class="btn btn-primary" id="addStudentSubmit">Add</button>
+			        	<button type="button" class="btn btn-danger" id="studentFormDelete">Delete Student</button>
+				        <button type="button" class="btn btn-primary" id="studentFormSubmit">Add</button>
 			        </div>
 		    	</div>
 		    </div>
@@ -112,12 +121,5 @@
 	<script src="scripts/moment.min.js"></script>
 	<script src="scripts/bootstrap-datetimepicker.js"></script>
 	<script src="scripts/managestudents.js"></script>
-	<script>
-		$(function() {
-			$('#startDate').datetimepicker({
-				pickTime: false
-			});
-		});
-	</script>
 </body>
 </html>

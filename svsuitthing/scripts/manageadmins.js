@@ -21,7 +21,7 @@ $(function() {
 		$('#adminFormDelete').hide();
 		$('#generatePassword').show();
 		$('#resetPassword').hide();
-		$("#tempPassword").prop('disabled', false);
+		$('#tempPassword').prop('disabled', false);
 	});
 	
 	$('.admin_table tr:not(#tableHeader)').click(function() {
@@ -34,7 +34,7 @@ $(function() {
 		$('#generatePassword').hide();
 		$('#resetPassword').show();
 		$('#tempPassword').val('');	
-		$("#tempPassword").prop('disabled', true);
+		$('#tempPassword').prop('disabled', true);
 		$('#groups').selectpicker('deselectAll');
 		$.getJSON("lib/admin.php?adminId=" + adminId, function(data) {
 			$('#firstName').val(data.firstName);

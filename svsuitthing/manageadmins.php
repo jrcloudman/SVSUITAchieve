@@ -33,7 +33,7 @@
 							while($row = mysqli_fetch_assoc($admins)) {
 								$permissions = 'Group';
 								if($row['permissions'] == 1) $permissions = 'Full';
-								echo '<tr><td class="adminId">' . $row['adminId'] . '</td><td class="firstName">' . $row['firstName'] . '</td><td class="lastName">' . $row['lastName'] . '</td><td class="username">' . $row['username'] . '</td><td class="permissions">' . $permissions . '</td><td>' . $row['dateAdded'] . '</td></tr>';
+								echo '<tr><td class="adminId">' . $row['adminId'] . '</td><td>' . $row['firstName'] . '</td><td>' . $row['lastName'] . '</td><td>' . $row['username'] . '</td><td>' . $permissions . '</td><td>' . $row['dateAdded'] . '</td></tr>';
 							}
 						?>
 					</tbody>

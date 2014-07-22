@@ -23,7 +23,7 @@
                 </ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="managestudents.php">Admin Panel</a></li>
-					<li><a href="#">Log Out</a></li>
+					<li><a href="login.php">Log Out</a></li>
 				</ul>
             </div>
 		</div>
