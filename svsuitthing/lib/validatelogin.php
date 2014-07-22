@@ -13,7 +13,7 @@
 	$admins = mysqli_query($dbc, $sql);
 
 	if(mysqli_num_rows($students) > 0) {
-		$row = mysqli_fetch_assoc($student);
+		$row = mysqli_fetch_assoc($students);
 		if(validate_password($password, $row['password'])) {
 			$_SESSION['username'] = $row['username'];
 			$_SESSION['permissions'] = '3';
