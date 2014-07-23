@@ -30,6 +30,15 @@
 	filter: alpha(opacity=12);
 }
 
+#aboutMePanelHeading {
+	padding: 6px;
+	background-color: #c1c1c1;
+}
+
+#aboutMePanelHeading h3 {
+	font-size: 12px;
+}
+
 .badgeImage:hover {
 	cursor: pointer;
 }

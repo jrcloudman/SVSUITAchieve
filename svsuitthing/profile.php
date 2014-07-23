@@ -53,9 +53,9 @@
 							echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Exp. Grad Date"><span class="glyphicon glyphicon-calendar"></span>'.$row['expectedGraduation'].'</li>';
 						?>							
 						</ul>
-						<div class="panel panel-default">
-							<div class="panel-heading" style="padding: 6px">
-								<h3 class="panel-title" style='font-size: 12px;'>About Me</h3>
+						<div class="panel panel-default" id="aboutMePanel">
+							<div class="panel-heading" id="aboutMePanelHeading">
+								<h3 class="panel-title">About Me</h3>
 							</div>
 							<div class="panel-body">
 								<?php
