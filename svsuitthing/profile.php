@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html>
 <?php
-require_once('lib/mysqli_connect.php');
-// Connect to db
-if (isset($_POST['studentFormSubmit'])) {
-	// Assign equivalent values from $_POST array
-	$expDate = mysqli_real_escape_string($dbc, $_POST['expGradDate']);
-	$aboutMe = mysqli_real_escape_string($dbc, $_POST['aboutMe']);
-	$major   = mysqli_real_escape_string($dbc, $_POST['majorField']);
-	$minor   = mysqli_real_escape_string($dbc, $_POST['minorField']);
+	require_once('lib/mysqli_connect.php');
+	// Connect to db
+	if (isset($_POST['studentFormSubmit'])) {
+		// Assign equivalent values from $_POST array
+		$expDate = mysqli_real_escape_string($dbc, $_POST['expGradDate']);
+		$aboutMe = mysqli_real_escape_string($dbc, $_POST['aboutMe']);
+		$major   = mysqli_real_escape_string($dbc, $_POST['majorField']);
+		$minor   = mysqli_real_escape_string($dbc, $_POST['minorField']);
 
-	// Update db attributes
-	mysqli_query($dbc,"UPDATE student SET expectedGraduation='$expDate', aboutMe='$aboutMe', major='$major', minor='$minor'
-		WHERE FirstName='John' AND LastName='Smith'");
-
-	// Close db
-	mysqli_close($dbc);	
+		// Update db attributes
+		mysqli_query($dbc,"UPDATE student SET expectedGraduation='$expDate', aboutMe='$aboutMe', major='$major', minor='$minor'
+			WHERE firstName='John' AND lastName='Smith'");
 }
 ?>
 <head>
@@ -44,18 +41,26 @@ if (isset($_POST['studentFormSubmit'])) {
 					<div class="col-md-2">
 						<img src="images/ryan.jpg" class="profile img-responsive img-rounded" />
 						<ul class="list-unstyled profile_info">
-							<li id="editStudent"><span class="glyphicon glyphicon-pencil"></span><a href="#">Edit Profile...</a></li>
-							<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Start Date"><span class="glyphicon glyphicon-calendar"></span>Started August 21, 2011</li>
-							<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Email"><span class="glyphicon glyphicon-envelope"></span><a href="mailto:rcbickha@svsu.edu">rcbickha@svsu.edu</a></li>
-							<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Major"><span class="glyphicon glyphicon-star"></span>Computer Science</li>
-							<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Minor"><span class="glyphicon glyphicon-star-empty"></span>Mathematics</li>
+						<?php
+							$sql = "SELECT username, startDate, major, minor, aboutMe, expectedGraduation FROM student WHERE studentID='54545'";
+							$student= mysqli_query($dbc, $sql);
+							$row = mysqli_fetch_assoc($student);
+							echo '<li id="editStudent"><span class="glyphicon glyphicon-pencil"></span><a href="#">Edit Profile...</a></li>';
+							echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Start Date"><span class="glyphicon glyphicon-calendar"></span>'.$row['startDate'].'</li>';
+							echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Email"><span class="glyphicon glyphicon-envelope"></span><a href="mailto:'.$row['username'].'">'.$row['username'].'</a></li>';
+							echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Major"><span class="glyphicon glyphicon-star"></span>'.$row['major'].'</li>';
+							echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Minor"><span class="glyphicon glyphicon-star-empty"></span>'.$row['minor'].'</li>';
+							echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Exp. Grad Date"><span class="glyphicon glyphicon-calendar"></span>'.$row['expectedGraduation'].'</li>';
+						?>							
 						</ul>
-						<div class="panel panel-primary">
-							<div class="panel-heading">
-								<h3 class="panel-title">About Me</h3>
+						<div class="panel panel-default">
+							<div class="panel-heading" style="padding: 6px">
+								<h3 class="panel-title" style='font-size: 12px;'>About Me</h3>
 							</div>
 							<div class="panel-body">
-								This is where we'll type interesting things about ourselves.
+								<?php
+									echo $row['aboutMe'];
+								?>
 							</div>
 						</div>
 					</div>
