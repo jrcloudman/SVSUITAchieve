@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,46 +18,51 @@
 			<?php include 'adminnav.php'; ?>
 			<div class="col-md-9">
 				<ul class="nav nav-tabs">
-					<li class="active"><a href="#group1" data-toggle="tab">IT Support Center - REC/HHS</a></li>
-					<li><a href="#group2" data-toggle="tab">IT Support Center - Main Campus</a></li>
+					<?php
+						require_once('lib/mysqli_connect.php');
+						$adminId = $_SESSION['adminId'];
+						$sql = "SELECT studentgroup.groupId, studentgroup.groupName
+								FROM studentgroup
+								JOIN admin_group ON studentgroup.groupId = admin_group.groupId AND admin_group.adminId = $adminId";
+						$result = mysqli_query($dbc, $sql);
+						$first = true;
+						$groups = array();
+						while($row = mysqli_fetch_assoc($result)) {
+							$groups[] = $row['groupId'];
+							echo '<li';
+							if($first) {
+								echo ' class="active"';
+								$first = false;
+							}
+							echo '><a href="#group' . $row['groupId']  . '" data-toggle="tab">' . $row['groupName'] . '</a></li>';
+						}
+					?>
 				</ul>
+				<button class="btn btn-primary" data-toggle="modal" data-target="#adminModal" id="newBadgeBtn">Add New Badge</button>
+				<button class="btn btn-primary" data-toggle="modal" data-target="#badgeGroupModal" id="manageBadgeGroupsBtn">Manage Badge Groups</button><br /><br />
 				<div class="tab-content">
-					<div class="tab-pane active in" id="group1">
-						<button class="btn btn-primary" data-toggle="modal" data-target="#adminModal">Add New Badge</button><br /><br />
-						<table class="table table-hover admin_table">
-							<thead>
-								<tr>
-									<th>Image</th><th>Name</th><th>Description</th><th>Type</th><th>Subgroup</th><th>Date Added</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><img src="images/badge.png" class="admin_badge"/></td><td>Paper Master</td><td>Loaded over 100 reams of paper into computer labs</td><td>Semester Recurring<td>Semester Awards</td><td>6/30/14</td>
-								</tr>
-								<tr>
-									<td><img src="images/badge.png" class="admin_badge"/></td><td>Lecture Captured</td><td>Assisted with an Echo360 Recording</td><td>Standard<td>Basic Training</td><td>6/30/14</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="tab-pane" id="group2">
-						<button class="btn btn-primary" data-toggle="modal" data-target="#adminModal">Add New Badge</button><br /><br />
-						<table class="table table-hover admin_table">
-							<thead>
-								<tr>
-									<th>Image</th><th>Name</th><th>Description</th><th>Type</th><th>Subgroup</th><th>Date Added</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><img src="images/badge.png" class="admin_badge"/></td><td>Paper Master</td><td>Loaded over 100 reams of paper into computer labs</td><td>Semester Recurring<td>Semester Awards</td><td>6/30/14</td>
-								</tr>
-								<tr>
-									<td><img src="images/badge.png" class="admin_badge"/></td><td>Lecture Captured</td><td>Assisted with an Echo360 Recording</td><td>Standard<td>Basic Training</td><td>6/30/14</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+				<?php
+					$first = true;
+					foreach($groups as $groupId) {
+						echo '<div class="tab-pane';
+						if($first) {
+							echo ' active';
+							$first = false;
+						}
+						echo '" id=group' . $groupId . '>';
+						echo '<table class="table table-hover admin_table">';
+						echo '<thead><tr><th>Image</th><th>Name</th><th>Description</th><th>Type</th><th>Badge Group</th><th>Date Added</th></tr></thead>';
+						echo '<tbody>';
+						$sql = "SELECT badge.imageFile, badge.badgeName, badge.description, badge.type, badge.groupId, badge.dateAdded, badgegroup.badgegroupName
+								FROM badge, badgegroup
+								WHERE badge.badgegroupId = badgegroup.badgegroupId AND badge.groupId = $groupId";
+						$result = mysqli_query($dbc, $sql);
+						while($row = mysqli_fetch_assoc($result)) {
+							echo '<tr><td><img src="images/' . $row['imageFile'] . '" class="admin_badge" /></td><td>' . $row['badgeName'] . '</td><td>' . $row['description'] . '</td><td>' . $row['type'] . '</td><td>' . $row['badgegroupName'] . '</td><td>' . $row['dateAdded'] . '</td></tr>';
+						}
+						echo '</tbody></table></div>';
+					}				
+				?>
 				</div>
 			</div>
 		</div>
@@ -68,7 +74,7 @@
 				        <h4 class="modal-title" id="myModalLabel">Create New Badge</h4>
 			        </div>
 			        <div class="modal-body">
-			        	<form class="form-horizontal" id="studentForm" method="post">
+			        	<form class="form-horizontal" id="badgeForm" method="post">
 			        		<div class="form-group">
 				        		<div class="fileinput fileinput-new" data-provides="fileinput">
 			        				<div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
@@ -94,9 +100,6 @@
         						<label for="badgeGroup" class="col-md-4 control-label">Badge Group</label>
         						<div class="col-md-7">
     								<select class="form-control" id="badgeGroup" name="badgeGroup">
-										<option>Basic Training</option>
-										<option>Standard Badges</option>
-										<option>Semester Rewards</option>
     								</select>
         						</div>
         					</div>
@@ -105,21 +108,31 @@
     							<div class="col-md-7">
 									<div class="radio">
 										<span class="tooltipped" data-toggle="tooltip" data-placement="right" title="Earned once and does not reset">
-											<input type="radio" name="badgeType" name="standard" checked> Standard
+											<input type="radio" name="badgeType" value="Standard" checked> Standard
 										</span>
 									</div>
 									<div class="radio">
 										<span class="tooltipped" data-toggle="tooltip" data-placement="right" title="Resets at the desired expiration date to be earned multiple times">
-											<input type="radio" name="badgeType" id="recurring" name="fullPermissions">Recurring
+											<input type="radio" name="badgeType" id="recurring" value="Recurring">Recurring
 										</span>
 									</div>    							
 								</div>
         					</div>
+	        				<div class="form-group">
+    							<label for="expirationDate" class="col-md-4 control-label">Expiration Date</label>
+    							<div class="col-md-7">
+	        						<input type="text" class="form-control" id="expirationDate" name="expirationDate" placeholder="Expiration Date" disabled>
+        						</div>
+	        				</div>
+	        				<input type="hidden" name="groupId" id="groupId" value="">
+	        				<input type="hidden" name="badgeId" id="badgeId" value="">
+	        				<input type="hidden" name="action" id="action" value="add">
 			        	</form>
 			        </div>
 			        <div class="modal-footer">
 				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        <button type="button" class="btn btn-primary">Add</button>
+				        <button type="button" class="btn btn-primary" id="badgeFormDelete">Delete Badge</button>
+				        <button type="button" class="btn btn-primary" id="badgeFormSubmit">Add</button>
 			        </div>
 		    	</div>
 		    </div>
@@ -131,13 +144,8 @@
 	<script src="scripts/jquery.dataTables.min.js"></script>
 	<script src="scripts/dataTables.bootstrap.js"></script>
 	<script src="scripts/jasny-bootstrap.min.js"></script>
-	<script>
-		$(function() {
-			$('.tooltipped').tooltip();
-			$('.selectpicker').selectpicker();
-			$('.admin_table').DataTable({
-			});
-		});
-	</script>
+	<script src="scripts/moment.min.js"></script>
+	<script src="scripts/bootstrap-datetimepicker.js"></script>
+	<script src="scripts/managebadges.js"></script>
 </body>
 </html>

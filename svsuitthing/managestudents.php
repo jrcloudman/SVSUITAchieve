@@ -19,16 +19,15 @@
 				<ul class="nav nav-tabs">
 					<?php
 						require_once('lib/mysqli_connect.php');
-						$sql = "SELECT groupId, groupName FROM studentgroup WHERE ";
-						for($i = 0; $i < sizeof($_SESSION['groups']) - 1; $i++) {
-							$groupId = $_SESSION['groups'][$i];
-							$sql .= "groupId = $groupId OR ";
-						}
-						$groupId = $_SESSION['groups'][$i];
-						$sql .= "groupId = $groupId";
+						$adminId = $_SESSION['adminId'];
+						$sql = "SELECT studentgroup.groupId, studentgroup.groupName
+								FROM studentgroup
+								JOIN admin_group ON studentgroup.groupId = admin_group.groupId AND admin_group.adminId = $adminId";
 						$result = mysqli_query($dbc, $sql);
 						$first = true;
+						$groups = array();
 						while($row = mysqli_fetch_assoc($result)) {
+							$groups[] = $row['groupId'];
 							echo '<li';
 							if($first) {
 								echo ' class="active"';
@@ -41,10 +40,10 @@
 				<div class="tab-content">
 				<?php
 					$first = true;
-					foreach($_SESSION['groups'] as $groupId) {
+					foreach($groups as $groupId) {
 						echo '<div class="tab-pane';
 						if($first) {
-							echo ' active in';
+							echo ' active';
 							$first = false;
 						}
 						echo '" id=group' . $groupId . '>';

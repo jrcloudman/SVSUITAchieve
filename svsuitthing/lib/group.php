@@ -6,9 +6,10 @@
 			case 'add':
 				$groupName = mysqli_real_escape_string($dbc, $_POST["groupName"]);
 				$sql = "INSERT INTO studentgroup(groupName, dateAdded) VALUES ('$groupName', NOW())";
-				$result = mysqli_query($dbc, $sql);
-				if($result) echo "success";
-				else echo "failure";
+				mysqli_query($dbc, $sql);
+				$groupId = mysqli_insert_id($dbc);
+				$sql = "INSERT INTO badgegroup(badgegroupName, groupId) VALUES ('Basic Training', $groupId), ('Standard Badges', $groupId), ('Semester Awards', $groupId)";
+				mysqli_query($dbc, $sql);
 				break;
 			case 'modify':
 				$groupId = mysqli_real_escape_string($dbc, $_POST["groupId"]);

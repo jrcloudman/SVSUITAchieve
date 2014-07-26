@@ -2,7 +2,7 @@
 	require_once('mysqli_connect.php');
 	require_once('PasswordHash.php');
 	if($_SERVER['REQUEST_METHOD'] == 'GET') {
-		$studentId = $_GET['studentId'];
+		$studentId = mysqli_real_escape_string($dbc, $_GET['studentId']);
 		$sql = "SELECT * FROM student WHERE studentId=$studentId";
 		$result = mysqli_query($dbc, $sql);
 		$data = mysqli_fetch_assoc($result);
@@ -26,6 +26,7 @@
 					$saltedHash = create_hash($password);
 					$sql = "INSERT INTO student(groupId, firstName, lastName, username, password, startDate, dateAdded, allTimeBadges) VALUES 
 							($groupId, '$firstName', '$lastName', '$username', '$saltedHash', '$startDate', NOW(), 0)";
+					echo $sql;
 					mysqli_query($dbc, $sql);
 					break;
 				case 'modify':

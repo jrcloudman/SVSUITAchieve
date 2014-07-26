@@ -15,7 +15,7 @@ $(function() {
 		$('#studentFormSubmit').html('Add');
 		var tab = $('ul.nav-tabs').find('li.active a');
 		var groupName = tab.html();
-		var groupId = tab.attr('href').slice(-1);
+		var groupId = tab.attr('href').match(/\d+$/)[0];
 		$('#myModalLabel').html("Add New Student to " + groupName);
 		$('#action').val('add');
 		$('#studentForm').find('input[type=text], textarea, select').val('');

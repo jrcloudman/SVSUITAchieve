@@ -33,17 +33,8 @@ CREATE TABLE `admin` (
   `dateAdded` date DEFAULT NULL,
   `permissions` int(11) NOT NULL,
   PRIMARY KEY (`adminId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `admin`
---
-
-LOCK TABLES `admin` WRITE;
-/*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-/*!40000 ALTER TABLE `admin` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `admin_group`
@@ -58,18 +49,10 @@ CREATE TABLE `admin_group` (
   KEY `groupId` (`groupId`),
   KEY `adminId` (`adminId`),
   KEY `adminId_2` (`adminId`),
-  CONSTRAINT `admin_group_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `studentgroup` (`groupId`)
+  CONSTRAINT `admin_group_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `studentgroup` (`groupId`) ON DELETE CASCADE,
+  CONSTRAINT `admin_group_ibfk_2` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `admin_group`
---
-
-LOCK TABLES `admin_group` WRITE;
-/*!40000 ALTER TABLE `admin_group` DISABLE KEYS */;
-/*!40000 ALTER TABLE `admin_group` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `badge`
@@ -80,9 +63,10 @@ DROP TABLE IF EXISTS `badge`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `badge` (
   `badgeId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `badgeName` varchar(45) DEFAULT NULL,
   `imageFile` varchar(255) NOT NULL,
   `description` varchar(100) NOT NULL,
-  `type` int(11) NOT NULL,
+  `type` varchar(45) NOT NULL,
   `badgegroupId` int(11) DEFAULT NULL,
   `groupId` int(11) unsigned DEFAULT NULL,
   `dateAdded` date DEFAULT NULL,
@@ -90,18 +74,9 @@ CREATE TABLE `badge` (
   `expirationDate` date DEFAULT NULL,
   PRIMARY KEY (`badgeId`),
   KEY `groupId` (`groupId`),
-  CONSTRAINT `badge_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `studentgroup` (`groupId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `badge_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `studentgroup` (`groupId`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `badge`
---
-
-LOCK TABLES `badge` WRITE;
-/*!40000 ALTER TABLE `badge` DISABLE KEYS */;
-/*!40000 ALTER TABLE `badge` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `badgegroup`
@@ -116,18 +91,9 @@ CREATE TABLE `badgegroup` (
   `groupId` int(10) unsigned NOT NULL,
   PRIMARY KEY (`badgegroupId`),
   KEY `groupId` (`groupId`),
-  CONSTRAINT `badgegroup_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `studentgroup` (`groupId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `badgegroup_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `studentgroup` (`groupId`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `badgegroup`
---
-
-LOCK TABLES `badgegroup` WRITE;
-/*!40000 ALTER TABLE `badgegroup` DISABLE KEYS */;
-/*!40000 ALTER TABLE `badgegroup` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `student`
@@ -150,22 +116,14 @@ CREATE TABLE `student` (
   `dateAdded` date DEFAULT NULL,
   `expectedGraduation` date DEFAULT NULL,
   `allTimeBadges` int(11) DEFAULT NULL,
+  `profileImage` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`studentId`),
   UNIQUE KEY `studentId_UNIQUE` (`studentId`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `groupId` (`groupId`),
-  CONSTRAINT `student_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `studentgroup` (`groupId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `student_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `studentgroup` (`groupId`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `student`
---
-
-LOCK TABLES `student` WRITE;
-/*!40000 ALTER TABLE `student` DISABLE KEYS */;
-/*!40000 ALTER TABLE `student` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `student_badge`
@@ -180,19 +138,10 @@ CREATE TABLE `student_badge` (
   KEY `studentId` (`studentId`),
   KEY `badgeId` (`badgeId`),
   KEY `badgeId_2` (`badgeId`),
-  CONSTRAINT `student_badge_ibfk_2` FOREIGN KEY (`studentId`) REFERENCES `student` (`studentId`),
+  CONSTRAINT `student_badge_ibfk_2` FOREIGN KEY (`studentId`) REFERENCES `student` (`studentId`) ON DELETE CASCADE,
   CONSTRAINT `student_badge_ibfk_1` FOREIGN KEY (`badgeId`) REFERENCES `badge` (`badgeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `student_badge`
---
-
-LOCK TABLES `student_badge` WRITE;
-/*!40000 ALTER TABLE `student_badge` DISABLE KEYS */;
-/*!40000 ALTER TABLE `student_badge` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `studentgroup`
@@ -207,18 +156,8 @@ CREATE TABLE `studentgroup` (
   `dateAdded` date NOT NULL,
   PRIMARY KEY (`groupId`),
   KEY `groupId` (`groupId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `studentgroup`
---
-
-LOCK TABLES `studentgroup` WRITE;
-/*!40000 ALTER TABLE `studentgroup` DISABLE KEYS */;
-INSERT INTO `studentgroup` VALUES (4,'Rectechs','2014-07-14'),(5,'Bleh','2014-07-14');
-/*!40000 ALTER TABLE `studentgroup` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -229,4 +168,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-14 17:11:12
+-- Dump completed on 2014-07-26  1:29:10

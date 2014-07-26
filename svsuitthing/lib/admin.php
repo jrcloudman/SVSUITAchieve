@@ -2,7 +2,7 @@
 	require_once('mysqli_connect.php');
 	require_once('PasswordHash.php');
 	if($_SERVER['REQUEST_METHOD'] == 'GET') {
-		$adminId = $_GET['adminId'];
+		$adminId = mysqli_real_escape_string($dbc, $_GET['adminId']);
 		$sql = "SELECT firstName, lastName, username, dateAdded, permissions FROM admin WHERE adminId=$adminId";
 		$result = mysqli_query($dbc, $sql);
 		$data = mysqli_fetch_assoc($result);
