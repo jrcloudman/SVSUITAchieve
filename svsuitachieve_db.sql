@@ -65,8 +65,8 @@ CREATE TABLE `badge` (
   `badgeId` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `badgeName` varchar(45) DEFAULT NULL,
   `imageFile` varchar(255) NOT NULL,
-  `description` varchar(100) NOT NULL,
-  `type` varchar(45) NOT NULL,
+  `badgeDescription` varchar(100) NOT NULL,
+  `badgeType` varchar(45) NOT NULL,
   `badgegroupId` int(11) DEFAULT NULL,
   `groupId` int(11) unsigned DEFAULT NULL,
   `dateAdded` date DEFAULT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE `badge` (
   PRIMARY KEY (`badgeId`),
   KEY `groupId` (`groupId`),
   CONSTRAINT `badge_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `studentgroup` (`groupId`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,4 +168,4 @@ CREATE TABLE `studentgroup` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-26  1:29:10
+-- Dump completed on 2014-07-28 17:28:29

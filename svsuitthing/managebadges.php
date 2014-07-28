@@ -7,6 +7,7 @@
     <title>ITS Support Center - REC/HHS</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-select.min.css" rel="stylesheet">
+	<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
     <link href="css/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 </head>
@@ -38,7 +39,7 @@
 						}
 					?>
 				</ul>
-				<button class="btn btn-primary" data-toggle="modal" data-target="#adminModal" id="newBadgeBtn">Add New Badge</button>
+				<button class="btn btn-primary" data-toggle="modal" data-target="#badgeModal" id="newBadgeBtn">Add New Badge</button>
 				<button class="btn btn-primary" data-toggle="modal" data-target="#badgeGroupModal" id="manageBadgeGroupsBtn">Manage Badge Groups</button><br /><br />
 				<div class="tab-content">
 				<?php
@@ -53,12 +54,12 @@
 						echo '<table class="table table-hover admin_table">';
 						echo '<thead><tr><th>Image</th><th>Name</th><th>Description</th><th>Type</th><th>Badge Group</th><th>Date Added</th></tr></thead>';
 						echo '<tbody>';
-						$sql = "SELECT badge.imageFile, badge.badgeName, badge.description, badge.type, badge.groupId, badge.dateAdded, badgegroup.badgegroupName
+						$sql = "SELECT badge.badgeId, badge.imageFile, badge.badgeName, badge.badgeDescription, badge.badgeType, badge.groupId, badge.dateAdded, badgegroup.badgegroupName
 								FROM badge, badgegroup
 								WHERE badge.badgegroupId = badgegroup.badgegroupId AND badge.groupId = $groupId";
 						$result = mysqli_query($dbc, $sql);
 						while($row = mysqli_fetch_assoc($result)) {
-							echo '<tr><td><img src="images/' . $row['imageFile'] . '" class="admin_badge" /></td><td>' . $row['badgeName'] . '</td><td>' . $row['description'] . '</td><td>' . $row['type'] . '</td><td>' . $row['badgegroupName'] . '</td><td>' . $row['dateAdded'] . '</td></tr>';
+							echo '<tr id="' . $row['badgeId'] . '"><td><img src="images/badges/' . $row['imageFile'] . '" class="admin_badge" /></td><td>' . $row['badgeName'] . '</td><td>' . $row['badgeDescription'] . '</td><td>' . $row['badgeType'] . '</td><td>' . $row['badgegroupName'] . '</td><td>' . $row['dateAdded'] . '</td></tr>';
 						}
 						echo '</tbody></table></div>';
 					}				
@@ -66,7 +67,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="adminModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal fade" id="badgeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    <div class="modal-dialog">
 			    <div class="modal-content">
 					<div class="modal-header">
@@ -74,12 +75,12 @@
 				        <h4 class="modal-title" id="myModalLabel">Create New Badge</h4>
 			        </div>
 			        <div class="modal-body">
-			        	<form class="form-horizontal" id="badgeForm" method="post">
+			        	<form class="form-horizontal" id="badgeForm" enctype = "multipart/form-data" action="lib/badge.php" method="post">
 			        		<div class="form-group">
 				        		<div class="fileinput fileinput-new" data-provides="fileinput">
 			        				<div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
 			        				<div>
-			        					<span class="btn btn-primary btn-file"><span class="fileinput-new">Select Image</span><span class="fileinput-exists">Change</span><input type="file" id="badge-file" name="badgeFile"></span>
+			        					<span class="btn btn-primary btn-file"><span class="fileinput-new">Select Image</span><span class="fileinput-exists">Change</span><input type="file" id="badgeImage" name="badgeImage"></span>
 			        					<a href="#" class="btn btn-primary fileinput-exists" data-dismiss="fileinput">Remove</a>
 		        					</div>
 				        		</div>
@@ -101,6 +102,18 @@
         						<div class="col-md-7">
     								<select class="form-control" id="badgeGroup" name="badgeGroup">
     								</select>
+        						</div>
+        					</div>
+        					<div class="form-group">
+        						<label for="difficulty" class="col-md-4 control-label">Difficulty</label>
+        						<div class="col-md-7">
+									<span class="tooltipped" data-toggle="tooltip" data-placement="top" title="Badges on student pages are sorted by difficulty, then by name">
+	    								<select class="form-control" id="difficulty" name="difficulty">
+	    									<option value="1" selected>Easy</option>
+	    									<option value="2">Medium</option>
+	    									<option value="3">Hard</option>
+	    								</select>
+    								</span>
         						</div>
         					</div>
         					<div class="form-group">
@@ -131,7 +144,7 @@
 			        </div>
 			        <div class="modal-footer">
 				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        <button type="button" class="btn btn-primary" id="badgeFormDelete">Delete Badge</button>
+				        <button type="button" class="btn btn-danger" id="badgeFormDelete">Delete Badge</button>
 				        <button type="button" class="btn btn-primary" id="badgeFormSubmit">Add</button>
 			        </div>
 		    	</div>

@@ -6,6 +6,7 @@
 		$sql = "SELECT * FROM badge WHERE badgeId=$badgeId";
 		$result = mysqli_query($dbc, $sql);
 		$data = mysqli_fetch_assoc($result);
+		$data['expirationDate'] = date("m/d/Y", strtotime($data['expirationDate']));
 		echo json_encode($data);
 	}
 	else {
@@ -17,13 +18,30 @@
 				$badgeDescription = mysqli_real_escape_string($dbc, $_POST["badgeDescription"]);
 				$badgeGroup = mysqli_real_escape_string($dbc, $_POST["badgeGroup"]);
 				$badgeType = mysqli_real_escape_string($dbc, $_POST["badgeType"]);
+				$difficulty = mysqli_real_escape_string($dbc, $_POST["difficulty"]);
+				if(isset($_POST["expirationDate"])) {
+					$expirationDate = mysqli_real_escape_string($dbc, $_POST["expirationDate"]);
+					$expirationDate = date("Y-m-d", strtotime($expirationDate));
+				}
+				if(isset($_FILES["badgeImage"])) {
+					if($_FILES["badgeImage"]["error"] > 0) {
+						echo "file upload error";
+					}
+					else {
+						do {
+							$badgeImage = substr(md5(uniqid()), 0, 10) . "." . pathinfo($_FILES["badgeImage"]["name"], PATHINFO_EXTENSION);
+						}
+						while (file_exists($badgeImage));
+						move_uploaded_file($_FILES["badgeImage"]["tmp_name"], "../images/badges/" . $badgeImage);
+					}
+				}
 			}
 			switch($action) {
 				case 'add':
-					$sql = "INSERT INTO badge(badgeName, imageFile, description, type, badgeGroupId, groupId, dateAdded, difficulty, expirationDate) VALUES 
-							('$badgeName', '', '$badgeDescription', '$badgeType', $badgeGroup, $groupId, NOW(), 1, ";
-					if(isset($_POST['expirationDate'])) {
-						$sql .= ($_POST['expirationDate'] . ")");
+					$sql = "INSERT INTO badge(badgeName, imageFile, badgeDescription, badgeType, badgeGroupId, groupId, dateAdded, difficulty, expirationDate) VALUES 
+							('$badgeName', '$badgeImage', '$badgeDescription', '$badgeType', $badgeGroup, $groupId, NOW(), $difficulty, ";
+					if(isset($expirationDate)) {
+						$sql .= "'$expirationDate')"; 
 					}
 					else {
 						$sql .= "NULL)";
@@ -31,8 +49,21 @@
 					mysqli_query($dbc, $sql);
 					break;
 				case 'modify':
+					$badgeId = mysqli_real_escape_string($dbc, $_POST["badgeId"]);
+					$sql = "UPDATE badge SET badgeName='$badgeName', badgeDescription='$badgeDescription', badgeType='$badgeType', badgeGroupId=$badgeGroup, difficulty=$difficulty";
+					if(isset($expirationDate)) {
+						$sql .= ", expirationDate='$expirationDate'";
+					}
+					if(isset($badgeImage)) {
+						$sql .= ", imageFile='$badgeImage'";
+					}
+					$sql .= "WHERE badgeId=$badgeId";
+					mysqli_query($dbc, $sql);
 					break;
 				case 'delete':
+					$badgeId = mysqli_real_escape_string($dbc, $_POST["badgeId"]);
+					$sql = "DELETE FROM badge WHERE badgeId=$badgeId";
+					mysqli_query($dbc, $sql);
 					break;
 			}
 		}
