@@ -12,7 +12,7 @@
 
 		// Update db attributes
 		mysqli_query($dbc,"UPDATE student SET expectedGraduation='$expDate', aboutMe='$aboutMe', major='$major', minor='$minor'
-			WHERE firstName='John' AND lastName='Smith'");
+			WHERE studentId=9");
 }
 ?>
 <head>
@@ -42,12 +42,12 @@
 						<img src="images/ryan.jpg" class="profile img-responsive img-rounded" />
 						<ul class="list-unstyled profile_info">
 						<?php
-							$sql = "SELECT username, startDate, major, minor, aboutMe, expectedGraduation FROM student WHERE studentID='54545'";
+							$sql = "SELECT username, startDate, major, minor, aboutMe, expectedGraduation FROM student WHERE studentID='9'";
 							$student= mysqli_query($dbc, $sql);
 							$row = mysqli_fetch_assoc($student);
 							echo '<li id="editStudent"><span class="glyphicon glyphicon-pencil"></span><a href="#">Edit Profile...</a></li>';
 							echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Start Date"><span class="glyphicon glyphicon-calendar"></span>'.$row['startDate'].'</li>';
-							echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Email"><span class="glyphicon glyphicon-envelope"></span><a href="mailto:'.$row['username'].'">'.$row['username'].'</a></li>';
+							echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Email"><span class="glyphicon glyphicon-envelope"></span><a href="mailto:'.$row['username'].'@svsu.edu">'.$row['username'].'@svsu.edu</a></li>';
 							echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Major"><span class="glyphicon glyphicon-star"></span>'.$row['major'].'</li>';
 							echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Minor"><span class="glyphicon glyphicon-star-empty"></span>'.$row['minor'].'</li>';
 							echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Exp. Grad Date"><span class="glyphicon glyphicon-calendar"></span>'.$row['expectedGraduation'].'</li>';

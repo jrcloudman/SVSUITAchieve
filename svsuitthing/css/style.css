@@ -20,6 +20,10 @@
 	margin-right: 5px;
 }
 
+.badge_table {
+	table-layout: fixed;
+}
+
 .badge_table td {
 	text-align: center;
 	width: 20%;
@@ -58,14 +62,15 @@
 
 .fileinput {
 	margin: 0 auto;
-	width: 150px;
+	text-align: center;
 	display: block;
 }
 
-.fileinput-preview {
+.fileinput .thumbnail {
 	width: 100px;
 	height: 100px;
 	margin: 0 auto;
+	margin-bottom: 5px;
 	display: block;
 }
 
