@@ -1,4 +1,12 @@
 $(function() {
+	$('#profileForm').submit(function(event) {
+		event.preventDefault();
+		var formData = $(this).serialize();
+		$.post("lib/student.php", formData, function( data ) {
+			alert(data);	
+	  		location.reload();
+		});
+	});
 	$('.tooltipped').tooltip();
 	$('.badgeImage').tooltip();
 	$('.badgeImage').click(function() {

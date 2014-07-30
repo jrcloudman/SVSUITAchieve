@@ -119,6 +119,7 @@
 	<script src="scripts/bootstrap.min.js"></script>
 	<script src="scripts/moment.min.js"></script>
 	<script src="scripts/bootstrap-datetimepicker.js"></script>
+	<script src="scripts/jquery.validate.min.js"></script>
 	<script src="scripts/managestudents.js"></script>
 </body>
 </html>

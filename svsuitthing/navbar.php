@@ -9,7 +9,7 @@
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Groups <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li class="dropdown-header">IT Support Center</li>
-							<li><a href="profile.php">REC/HHS</a></li>
+							<li><a href="profile.php?groupId=16">REC/HHS</a></li>
 							<li><a href="#">Main Campus</a></li>
 							<li class="divider"></li>
 							<li class="dropdown-header">Desktop and Printers</li>

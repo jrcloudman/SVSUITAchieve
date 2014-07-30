@@ -30,25 +30,27 @@
 					mysqli_query($dbc, $sql);
 					break;
 				case 'modify':
-					$adminId = mysqli_real_escape_string($dbc, $_POST["adminId"]);
+					$studentId = mysqli_real_escape_string($dbc, $_POST["studentId"]);
 					$sqlPw = "";
 					if(isset($_POST['tempPassword'])) {
 						$password = mysqli_real_escape_string($dbc, $_POST["tempPassword"]);
 						$saltedHash = create_hash($password);
 						$sqlPw = "password='$saltedHash',";
 					}
-					$sql = "UPDATE admin SET firstName='$firstName', lastName='$lastName', username='$username', " . $sqlPw . "permissions='$permissions' WHERE adminId='$adminId'";
+					$sql = "UPDATE student SET firstName='$firstName', lastName='$lastName', username='$username', " . $sqlPw . "startDate='$startDate' WHERE studentId='$studentId'";
 					mysqli_query($dbc, $sql);
-					if($permissions == 2) { 
-						$sql = "DELETE FROM admin_group WHERE adminId='$adminId'";
-						mysqli_query($dbc, $sql);
-						insertGroups($dbc, $adminId);
-					}
+					break;
+				case 'profile_modify':
+					$studentId = mysqli_real_escape_string($dbc, $_POST['studentId']);
+					$expDate = mysqli_real_escape_string($dbc, $_POST['expGradDate']);
+					$aboutMe = mysqli_real_escape_string($dbc, $_POST['aboutMe']);
+					$major   = mysqli_real_escape_string($dbc, $_POST['majorField']);
+					$minor   = mysqli_real_escape_string($dbc, $_POST['minorField']);
+					mysqli_query($dbc,"UPDATE student SET expectedGraduation='$expDate', aboutMe='$aboutMe', major='$major', minor='$minor'
+					WHERE studentId=$studentId");
 					break;
 				case 'delete':
 					$studentId = mysqli_real_escape_string($dbc, $_POST["studentId"]);
-					$sql = "DELETE FROM student_badge WHERE studentId = $studentId";
-					mysqli_query($dbc, $sql);
 					$sql = "DELETE FROM student WHERE studentId = $studentId";
 					mysqli_query($dbc, $sql);
 					break;

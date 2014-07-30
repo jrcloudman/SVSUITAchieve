@@ -17,7 +17,6 @@ $(function() {
 			processData: false,
 			contentType: false
 		}).done(function(data) {
-			alert(data); 
 			location.reload(); 
 		});
 	});

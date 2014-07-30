@@ -5,10 +5,14 @@ $(function() {
 
 	$('#studentForm').submit(function(event) {
 		event.preventDefault();
-		var formData = $(this).serialize();
-		$.post("lib/student.php", formData, function( data ) {
-	  		location.reload();
-		});
+		$("#studentForm").validate();
+		
+		if($("#studentForm").valid()) {
+			var formData = $(this).serialize();
+			$.post("lib/student.php", formData, function( data ) {
+		  		location.reload();
+			});
+		}	
 	});
 
 	$('#newStudentBtn').click(function() {
@@ -71,6 +75,12 @@ $(function() {
 	$('#studentFormDelete').click(function() {
 		$('#action').val('delete');
 		$("#studentForm").submit();
+	});
+
+	$('#studentForm').validate({
+		rules: {
+			firstName: {required: true, maxlength: 45}
+		}
 	});
 });
 

@@ -34,6 +34,10 @@
 	filter: alpha(opacity=12);
 }
 
+.panel-heading {
+	color: #FFF;
+}
+
 #aboutMePanelHeading {
 	padding: 6px;
 	background-color: #c1c1c1;
