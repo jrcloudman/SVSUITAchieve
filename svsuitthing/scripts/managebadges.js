@@ -21,6 +21,14 @@ $(function() {
 		});
 	});
 
+	$("#badgegroupForm").submit(function(event) {
+		event.preventDefault();
+		var formData = $(this).serialize();
+		$.post("lib/badgegroup.php", formData, function(data) {
+			alert(data);
+			location.reload();
+		});
+	})
 	$('#newBadgeBtn').click(function() {
 		$('#badgeFormSubmit').html('Add');
 		var tab = $('ul.nav-tabs').find('li.active a');
@@ -91,6 +99,10 @@ $(function() {
 		$("#badgeForm").submit();
 	});
 
+	$("#badgegroupFormSubmit").click(function() {
+		$("#badgegroupForm").submit();
+	});
+
 	$("#chooseExistingBtn").click(function() {
 		$('#badgeImageModal').modal('show');
 	});
@@ -104,7 +116,7 @@ $(function() {
 		$.getJSON("lib/badgegroup.php?groupId=" + groupId, function(data) {
 			var html = "";
 			for(var i = 0; i < data.length; i++) {
-				html += '<div class="form-group"><label class="col-md-3 control-label">Badge Group #' + (i + 1) + '</label><div class="col-md-5"><input type="text" class="form-control badgegroupName" name="badgegroupName[]" placeholder="Name" value="' + data[i].badgegroupName + '"></div><div class="col-md-4 input-group color"><input type="text" value="' + data[i].color + '" class="form-control badgegroupColor" name="badgegroupColor[]" placeholder="Color" /><span class="input-group-addon"><i></i></span></div></div>';
+				html += '<div class="form-group"><label class="col-md-3 control-label">Badge Group #' + (i + 1) + '</label><div class="col-md-5"><input type="text" class="form-control badgegroupName" name="badgegroupName[]" placeholder="Name" value="' + data[i].badgegroupName + '"></div><div class="col-md-4 input-group color"><input type="text" value="' + data[i].color + '" class="form-control badgegroupColor" name="badgegroupColor[]" placeholder="Color" /><span class="input-group-addon"><i></i></span></div></div><input type="hidden" name="badgegroupId[]" value="' + data[i].badgegroupId + '">';
 			}
 			$('#badgegroupForm').append(html);
 			$('.color').colorpicker();

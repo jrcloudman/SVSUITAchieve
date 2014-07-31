@@ -7,6 +7,7 @@
 		$result = mysqli_query($dbc, $sql);
 		$data = mysqli_fetch_assoc($result);
 		$data['startDate'] = date("m/d/Y", strtotime($data['startDate']));
+		$data['expectedGraduation'] = date("m/d/Y", strtotime($data['expectedGraduation']));
 		echo json_encode($data);
 	}
 	else {

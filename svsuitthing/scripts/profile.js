@@ -18,7 +18,13 @@ $(function() {
 		}
 	});
 	
-	$('#editStudent').click(function(){
+	$('#editStudent').click(function() {
+		var tab = $('ul.nav-tabs').find('li.active a');
+		var studentId = tab.attr('href').match(/\d+$/)[0];
+		$.getJSON("lib/student.php?studentId=" + studentId, function(data) {
+			$('#expGradDate').val(data.expextedGraduation);
+			$('#aboutMe').html(data.aboutMe);
+		});
 		$('#editModal').modal('show');
 	});
 	

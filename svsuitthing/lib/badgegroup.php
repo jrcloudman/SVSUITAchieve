@@ -10,4 +10,16 @@
 		}
 		echo json_encode($data);
 	}
+	else {
+		$badgegroups = array();
+		$badgegroups['ids'] = $_POST['badgegroupId'];
+		$badgegroups['names'] = $_POST['badgegroupName'];
+		$badgegroups['colors'] = $_POST['badgegroupColor'];
+		$groupId = mysqli_real_escape_string($dbc, $_POST['badgegroup_groupId']);
+		
+		for($i = 0; $i < count($badgegroups['ids']); $i++) {
+			$sql = "UPDATE badgegroup SET badgegroupName='" . $badgegroups['names'][$i] . "', color='" . $badgegroups['colors'][$i] . "' WHERE badgegroupId=" . $badgegroups['ids'][$i];
+			mysqli_query($dbc, $sql); 
+		}
+	}
 ?>

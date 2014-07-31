@@ -58,12 +58,13 @@
 			<?php
 				$first = true;
 				foreach($students as $student) {
+					$studentId = $student['studentId'];
 					echo '<div class="tab-pane';
 					if($first) {
 						echo ' active';
 						$first = false;
 					}
-					echo '" id=student' . $student['studentId'] . '>';
+					echo '" id=student' . $studentId . '>';
 					echo '<div class="row"><div class="col-md-2">';
 					if($student['profileImage'] != NULL) {
 						$profileImage = $student['profileImage'];
@@ -71,7 +72,7 @@
 					else {
 						$profileImage = "profileDefault.jpg";
 					}
-					echo '<img src="images/profile/' . $profileImage . '" class="profile img-reesponsive img-rounded">';
+					echo '<img src="images/profile/' . $profileImage . '" class="profile img-responsive img-rounded">';
 					echo '<ul class="list-unstyled profile_info">';
 
 					$startDate = date("m/d/Y", strtotime($student['startDate']));
@@ -79,30 +80,46 @@
 						$expectedGrad = date("m/d/Y", strtotime($student['expectedGraduation']));
 					}
 					else {
-						$expectedGrad = '';
+						$expectedGrad = NULL;
 					}
 					echo '<li id="editStudent"><span class="glyphicon glyphicon-pencil"></span><a href="#">Edit Profile...</a></li>';
 					echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Start Date"><span class="glyphicon glyphicon-calendar"></span>' . $startDate .'</li>';
 					echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Email"><span class="glyphicon glyphicon-envelope"></span><a href="mailto:'. $student['username'] . '@svsu.edu">'. $student['username'] . '@svsu.edu</a></li>';
-					echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Major"><span class="glyphicon glyphicon-star"></span>'. $student['major'] . '</li>';
-					echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Minor"><span class="glyphicon glyphicon-star-empty"></span>' . $student['minor'] . '</li>';
-					echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Exp. Grad Date"><span class="glyphicon glyphicon-calendar"></span>' . $expectedGrad .'</li>';
+					if(isset($student['major'])) {
+						echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Major"><span class="glyphicon glyphicon-star"></span>'. $student['major'] . '</li>';
+					}
+					if(isset($student['minor'])) {
+						echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Minor"><span class="glyphicon glyphicon-star-empty"></span>' . $student['minor'] . '</li>';
+					}
+					if(isset($expectedGrad)) {
+						echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Exp. Grad Date"><span class="glyphicon glyphicon-calendar"></span>' . $expectedGrad .'</li>';
+					}
 					?>
 					</ul>
+					<?php if(isset($student['aboutMe'])) { ?>
 					<div class="panel panel-default" id="aboutMePanel">
 						<div class="panel-heading" id="aboutMePanelHeading">
 							<h3 class="panel-title">About Me</h3>
 						</div>
 						<div class="panel-body">
 							<?php
-								echo $row['aboutMe'];
+								echo $student['aboutMe'];
 							?>
 						</div>
 					</div>
+					<?php } ?>
 				</div>
-				<div class="col-md-9">
+				<div class="col-md-10">
 					<?php 
-						echo '<div class="panel-group" id="badge_accordian_' . $student['studentId'] . '">'; 
+						echo '<div class="panel-group" id="badge_accordian_' . $studentId . '">'; 
+						$sql = "SELECT badgeId FROM student_badge WHERE studentId=$studentId";
+						$earnedBadges = array();
+						$result = mysqli_query($dbc, $sql);
+						while($row = mysqli_fetch_assoc($result)) {
+							$earnedBadges[] = $row['badgeId'];
+						}
+						$j = 0;
+						$first = true;
 						for($i = 0; $i < count($badgegroups); $i++) {
 							echo '<div class="panel"><div class="panel-heading" style="background-color: ' . $badgegroups[$i]['color'] . ';">';
 							?>
@@ -115,9 +132,32 @@
 								</a>
 							</h4>
 						</div>
-						<div id="<?php echo $student['studentId'] . '_' . $badgegroups[$i]['badgegroupId']?>" class="panel-collapse collapse">
+						<div id="<?php echo $student['studentId'] . '_' . $badgegroups[$i]['badgegroupId']?>" class="panel-collapse collapse <?php if($first) {echo 'in'; $first=false;} ?>">
 							<div class="panel-body">
-								Basic Badges Go Here
+								<table class="table badge_table">
+									<?php
+										$colCount = 0;
+										echo '<tr>';
+										while(isset($badges[$j]) && $badges[$j]['badgegroupId'] == $badgegroups[$i]['badgegroupId']) {
+											echo '<td><img src="images/badges/' . $badges[$j]['imageFile'] . '" class="badgeImage ';
+											if(!in_array($badges[$j]['badgeId'], $earnedBadges)) {
+												echo 'faded';
+											}
+											echo '" id="' . $studentId . '_' . $badges[$j]['badgeId'] . '" data-toggle="tooltip" data-placement="top" title="' . $badges[$j]['badgeDescription'] . '"><div class="caption">' . $badges[$j]['badgeName'] . '</div></td>';
+											$j++;
+											$colCount++;
+											if($colCount == 5) {
+												echo '</tr><tr>';
+												$colCount = 0;
+											}
+										}
+										while($colCount != 5) {
+											echo '<td></td>';
+											$colCount++;
+										}
+										echo '</tr>';
+									?>
+								</table>
 							</div>
 						</div>
 						</div> <!--/panel-->
@@ -127,135 +167,6 @@
 				</div> <!--/row-->
 				</div> <!--/pane-->
 					<?php } //End student for ?>
-<!-- 			<div class="tab-pane fade active in" id="ryan">
-				<div class="row">
-					<div class="col-md-2">
-						<img src="images/ryan.jpg" class="profile img-responsive img-rounded" />
-						<ul class="list-unstyled profile_info">
-						<?php
-							$sql = "SELECT username, startDate, major, minor, aboutMe, expectedGraduation FROM student WHERE studentID='11'";
-							$student= mysqli_query($dbc, $sql);
-							$row = mysqli_fetch_assoc($student);
-							$startDate = date("m/d/Y", strtotime($row['startDate']));
-							if($row['expectedGraduation'] != NULL) {
-								$expectedGrad = date("m/d/Y", strtotime($row['expectedGraduation']));
-							}
-							else {
-								$expectedGrad = '';
-							}
-							echo '<li id="editStudent"><span class="glyphicon glyphicon-pencil"></span><a href="#">Edit Profile...</a></li>';
-							echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Start Date"><span class="glyphicon glyphicon-calendar"></span>' . $startDate .'</li>';
-							echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Email"><span class="glyphicon glyphicon-envelope"></span><a href="mailto:'.$row['username'].'@svsu.edu">'.$row['username'].'@svsu.edu</a></li>';
-							echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Major"><span class="glyphicon glyphicon-star"></span>'.$row['major'].'</li>';
-							echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Minor"><span class="glyphicon glyphicon-star-empty"></span>'.$row['minor'].'</li>';
-							echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Exp. Grad Date"><span class="glyphicon glyphicon-calendar"></span>' . $expectedGrad .'</li>';
-						?>							
-						</ul>
-						<div class="panel panel-default" id="aboutMePanel">
-							<div class="panel-heading" id="aboutMePanelHeading">
-								<h3 class="panel-title">About Me</h3>
-							</div>
-							<div class="panel-body">
-								<?php
-									echo $row['aboutMe'];
-								?>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-9">
-						<div class="panel-group" id="badge_accordian_ryan">
-							<div class="panel panel-success">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#badge_accordian_ryan" href="#ryanLevelOne">
-											Basic Training
-										</a>
-										<a class="pull-right" data-toggle="collapse" data-parent="#badge_accordian_ryan" href="#ryanLevelOne">
-											10/10 Badges Earned
-										</a>
-									</h4>
-								</div>
-								<div id="ryanLevelOne" class="panel-collapse collapse">
-									<div class="panel-body">
-										Basic Badges Go Here
-									</div>
-								</div>
-							</div>
-							<div class="panel panel-warning">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#badge_accordian_ryan" href="#ryanLevelTwo">
-											Standard Badges
-										</a>
-										<a class="pull-right" data-toggle="collapse" data-parent="#badge_accordian_ryan" href="#ryanLevelTwo">
-											6/8 Badges Earned
-										</a>
-									</h4>
-								</div>
-								<div id="ryanLevelTwo" class="panel-collapse collapse in">
-									<div class="panel-body">
-										<table class="table badge_table">
-											<tr>
-												<td>
-													<img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Turned on the EN110 office computer"/>
-													<div class="caption">Is the Power Turned On?</div>
-												</td>
-												<td>
-													<img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Took a support call"/>
-													<div class="caption">IT Support, How May I Help You?</div>
-												</td>												
-												<td>
-													<img src="images/badge.png" class="badgeImage faded" data-toggle="tooltip" data-placement="top" title="Attended Cherwell training"/>
-													<div class="caption">Student of Cherwell</div>
-												</td>												
-												<td>
-													<img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Assisted with an Echo360 recording"/>
-													<div class="caption">Lecture Captured</div>
-												</td>												
-												<td>
-													<img src="images/badge.png" class="badgeImage faded" data-toggle="tooltip" data-placement="top" title="Attended Microsoft Office training"/>
-													<div class="caption">Office Executive</div>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Self explanatory"/>
-													<div class="caption">Bought Jeff Lunch</div>
-												</td>
-												<td>
-													<img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Loaded over 100 reams of paper into computer labs"/>
-													<div class="caption">Paper Master</div>
-												</td>												
-												<td>
-													<img src="images/badge.png" class="badgeImage" data-toggle="tooltip" data-placement="top" title="Retrieved paper from the loading dock"/>
-													<div class="caption">Do You Even Lift?</div>
-												</td>
-											</tr>
-										</table>
-									</div>
-								</div>
-							</div>
-							<div class="panel panel-danger">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#badge_accordian_ryan" href="#ryanLevelThree">
-											Semester Awards
-										</a>
-										<a class="pull-right" data-toggle="collapse" data-parent="#badge_accordian_ryan" href="#ryanLevelThree">
-											5/7 Badges Earned
-										</a>
-									</h4>
-								</div>
-								<div id="ryanLevelThree" class="panel-collapse collapse">
-									<div class="panel-body">
-										Advanced Badges Go Here
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> -->
 		</div>
 	</div>
 

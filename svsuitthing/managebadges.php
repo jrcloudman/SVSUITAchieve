@@ -191,7 +191,7 @@
 			        </div>
 			        <div class="modal-body">
 	   					<form class="form-horizontal" id="badgegroupForm">
-	        				<input type="hidden" name="groupId" id="badgegroup_groupId" value="">
+	        				<input type="hidden" name="badgegroup_groupId" id="badgegroup_groupId" value="">
 	   					</form>
 			        </div>
 			        <div class="modal-footer">

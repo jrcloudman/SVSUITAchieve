@@ -33,7 +33,7 @@ $(function() {
 	$('.admin_table tr:not(#tableHeader)').click(function() {
 		var studentId = $(this).find('td.studentId').html();
 		$('#myModalLabel').html("Edit Student #" + studentId);
-		$('#adminFormSubmit').html('Save Changes');
+		$('#studentFormSubmit').html('Save Changes');
 		$('#action').val('modify');
 		$('#studentId').val(studentId);
 		$('#studentFormDelete').show();

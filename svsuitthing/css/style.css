@@ -47,6 +47,10 @@
 	font-size: 12px;
 }
 
+.badgeImage {
+	height: 100px;
+}
+
 .badgeImage:hover {
 	cursor: pointer;
 }
