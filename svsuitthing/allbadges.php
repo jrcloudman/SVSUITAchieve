@@ -19,16 +19,18 @@
 				<table class="table table-hover admin_table" id="badge_table">
 					<thead>
 						<tr>
-							<th>Image</th><th>Name</th><th>Description</th><th>Type</th><th>Created By</th><th>Date Added</th>
+							<th>Image</th><th>Name</th><th>Description</th><th>Group</th><th>Type</th><th>Date Added</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td><img src="images/badge.png" class="admin_badge"/></td><td>Paper Master</td><td>Loaded over 100 reams of paper into computer labs</td><td>Semester Recurring<td>Jeff Roberts</td><td>6/30/14</td>
-						</tr>
-						<tr>
-							<td><img src="images/badge.png" class="admin_badge"/></td><td>Lecture Captured</td><td>Assisted with an Echo360 Recording</td><td>Standard<td>Jeff Roberts</td><td>6/30/14</td>
-						</tr>
+						<?php
+							require_once('lib/mysqli_connect.php');
+							$sql = "SELECT * FROM badge, studentgroup WHERE badge.groupId = studentgroup.groupId";
+							$result = mysqli_query($dbc, $sql);
+							while($row = mysqli_fetch_assoc($result)) {
+								echo '<tr id="' . $row['badgeId'] . '"><td><img src="images/badges/' . $row['imageFile'] . '" class="admin_badge" /></td><td>' . $row['badgeName'] . '</td><td>' . $row['badgeDescription'] . '</td><td>' . $row['groupName'] . '</td><td>' . $row['badgeType'] . '</td><td>' . $row['dateAdded'] . '</td></tr>';
+							}
+						?>
 					</tbody>
 				</table>
 			</div>

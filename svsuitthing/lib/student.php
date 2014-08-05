@@ -7,7 +7,9 @@
 		$result = mysqli_query($dbc, $sql);
 		$data = mysqli_fetch_assoc($result);
 		$data['startDate'] = date("m/d/Y", strtotime($data['startDate']));
-		$data['expectedGraduation'] = date("m/d/Y", strtotime($data['expectedGraduation']));
+		if($data['expectedGraduation'] != NULL) {
+			$data['expectedGraduation'] = date("m/d/Y", strtotime($data['expectedGraduation']));
+		}
 		echo json_encode($data);
 	}
 	else {
@@ -45,10 +47,33 @@
 					$studentId = mysqli_real_escape_string($dbc, $_POST['studentId']);
 					$expDate = mysqli_real_escape_string($dbc, $_POST['expGradDate']);
 					$aboutMe = mysqli_real_escape_string($dbc, $_POST['aboutMe']);
-					$major   = mysqli_real_escape_string($dbc, $_POST['majorField']);
-					$minor   = mysqli_real_escape_string($dbc, $_POST['minorField']);
-					mysqli_query($dbc,"UPDATE student SET expectedGraduation='$expDate', aboutMe='$aboutMe', major='$major', minor='$minor'
-					WHERE studentId=$studentId");
+					$major = mysqli_real_escape_string($dbc, $_POST['major']);
+					$minor = mysqli_real_escape_string($dbc, $_POST['minor']);
+
+					$convDate = date("Y-m-d", strtotime($expDate));
+					$expDate = !empty($expDate) ? "'$convDate'" : "NULL";
+					$aboutMe = !empty($aboutMe) ? "'$aboutMe'" : "NULL";
+					$major = !empty($major) ? "'$major'" : "NULL";
+					$minor = !empty($minor) ? "'$minor'" : "NULL";
+					$sql = "UPDATE student SET expectedGraduation=$expDate, aboutMe=$aboutMe, major=$major, minor=$minor";
+					if($_FILES["profileImage"]["error"] !== UPLOAD_ERR_NO_FILE) {
+						if($_FILES["profileImage"]["error"] > 0) {
+							$errors[] = "file upload error";
+						}
+						else {
+							do {
+								$profileImage = substr(md5(uniqid()), 0, 10) . "." . pathinfo($_FILES["profileImage"]["name"], PATHINFO_EXTENSION);
+							}
+							while (file_exists("../images/badges/" . $profileImage));
+							move_uploaded_file($_FILES["profileImage"]["tmp_name"], "../images/profile/" . $profileImage);
+							$profileImage = "'$profileImage'";
+							$sql += ", profileImage='$profileImage'";
+						}
+					}
+
+					$sql += " WHERE studentId=$studentId";
+					mysqli_query($dbc, $sql);
+					echo $sql;
 					break;
 				case 'delete':
 					$studentId = mysqli_real_escape_string($dbc, $_POST["studentId"]);

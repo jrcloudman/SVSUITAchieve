@@ -24,6 +24,7 @@
 	<link href="css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="css/jasny-bootstrap.min.css" rel="stylesheet">
 	<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
+	<link href="css/jasny-bootstrap.min.css" rel="stylesheet" />
 	<link href="css/style.css" rel="stylesheet"/>
 </head>
 <body>
@@ -82,7 +83,7 @@
 					else {
 						$expectedGrad = NULL;
 					}
-					echo '<li id="editStudent"><span class="glyphicon glyphicon-pencil"></span><a href="#">Edit Profile...</a></li>';
+					echo '<li class="editProfileLink"><span class="glyphicon glyphicon-pencil"></span><a href="#">Edit Profile...</a></li>';
 					echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Start Date"><span class="glyphicon glyphicon-calendar"></span>' . $startDate .'</li>';
 					echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Email"><span class="glyphicon glyphicon-envelope"></span><a href="mailto:'. $student['username'] . '@svsu.edu">'. $student['username'] . '@svsu.edu</a></li>';
 					if(isset($student['major'])) {
@@ -184,7 +185,7 @@
 							<div class="fileinput fileinput-new" data-provides="fileinput">
 								<div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
 								<div>
-									<span class="btn btn-primary btn-file"><span class="fileinput-new">Select Image</span><span class="fileinput-exists">Change</span><input type="file" id="badge-file" name="badgeFile"></span>
+									<span class="btn btn-primary btn-file"><span class="fileinput-new">Select Image</span><span class="fileinput-exists">Change</span><input type="file" id="profileImage" name="profileImage"></span>
 									<a href="#" class="btn btn-primary fileinput-exists" data-dismiss="fileinput">Remove</a>
 								</div>
 							</div>
@@ -192,7 +193,7 @@
 						<div class="form-group">
 							<label for="expGradDate" class="col-md-4 control-label">Expected Graduation Date</label>
 							<div class="col-md-7">
-								<input type="text" data-date-format="YYYY/MM/DD" class="form-control" id="expGradDate" name="expGradDate" placeholder="Expected Graduation Date">
+								<input type="text" class="form-control" id="expGradDate" name="expGradDate" placeholder="Expected Graduation Date">
 							</div>
 						</div> 
 						<div class="form-group">
@@ -204,13 +205,13 @@
 						<div class="form-group">
 							<label for="majorField" class="col-md-4 control-label">Major</label>
 							<div class="col-md-5">
-								<input type="text" class="form-control" id="majorField" name="majorField" placeholder="Major">
+								<input type="text" class="form-control" id="major" name="major" placeholder="Major">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="minorField" class="col-md-4 control-label">Minor</label>
 							<div class="col-md-5">
-								<input type="text" class="form-control" id="minorField" name="minorField" placeholder="Minor">
+								<input type="text" class="form-control" id="minor" name="minor" placeholder="Minor">
 							</div>
 						</div> 
         				<input type="hidden" name="action" id="action" value="profile_modify">
@@ -229,5 +230,6 @@
 	<script src="scripts/bootstrap.min.js"></script>
 	<script src="scripts/moment.min.js"></script>
 	<script src="scripts/bootstrap-datetimepicker.js"></script>
+	<script src="scripts/jasny-bootstrap.min.js"></script>
 </body>
 </html>
