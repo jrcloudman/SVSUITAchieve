@@ -5,6 +5,7 @@ $(function() {
 		event.preventDefault();
 		var formData = $(this).serialize();
 		$.post("lib/admin.php", formData, function( data ) {
+			alert(data);
 	  		location.reload();
 		});
 	});

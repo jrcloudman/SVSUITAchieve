@@ -29,10 +29,10 @@
 					$password = mysqli_real_escape_string($dbc, $_POST["tempPassword"]);
 					$saltedHash = create_hash($password);
 					$sql = "INSERT INTO admin(firstName, lastName, username, password, dateAdded, permissions) VALUES 
-							('$firstName', '$lastName', '$username', '$saltedHash', NOW(), $permissions)";
+							('$firstName', '$lastName', '$username', '$saltedHash', NOW(), '$permissions')";
 					mysqli_query($dbc, $sql);
 					
-					if($permissions == 2) {
+					if($permissions == 'group') {
 						insertGroups($dbc, mysqli_insert_id($dbc));
 					}
 					break;
@@ -44,9 +44,9 @@
 						$saltedHash = create_hash($password);
 						$sqlPw = "password='$saltedHash',";
 					}
-					$sql = "UPDATE admin SET firstName='$firstName', lastName='$lastName', username='$username', " . $sqlPw . "permissions='$permissions' WHERE adminId='$adminId'";
+					$sql = "UPDATE admin SET firstName='$firstName', lastName='$lastName', username='$username', " . $sqlPw . "permissions='$permissions' WHERE adminId=$adminId";
 					mysqli_query($dbc, $sql);
-					if($permissions == 2) { 
+					if($permissions == 'group') { 
 						$sql = "DELETE FROM admin_group WHERE adminId='$adminId'";
 						mysqli_query($dbc, $sql);
 						insertGroups($dbc, $adminId);

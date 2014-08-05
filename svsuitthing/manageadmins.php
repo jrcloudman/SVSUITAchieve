@@ -31,9 +31,7 @@
 							$sql = "SELECT adminId, firstName, lastName, username, dateAdded, permissions FROM admin";
 							$admins= mysqli_query($dbc, $sql);
 							while($row = mysqli_fetch_assoc($admins)) {
-								$permissions = 'Group';
-								if($row['permissions'] == 1) $permissions = 'Full';
-								echo '<tr><td class="adminId">' . $row['adminId'] . '</td><td>' . $row['firstName'] . '</td><td>' . $row['lastName'] . '</td><td>' . $row['username'] . '</td><td>' . $permissions . '</td><td>' . $row['dateAdded'] . '</td></tr>';
+								echo '<tr><td class="adminId">' . $row['adminId'] . '</td><td>' . $row['firstName'] . '</td><td>' . $row['lastName'] . '</td><td>' . $row['username'] . '</td><td>' . ucfirst($row['permissions']) . '</td><td>' . $row['dateAdded'] . '</td></tr>';
 							}
 						?>
 					</tbody>
@@ -79,10 +77,10 @@
     							<label for="permissions" class="col-md-4 control-label">Permissions</label>
     							<div class="col-md-7">
 									<div class="radio">
-										<input type="radio" name="permissions" id="permissions" value="2" checked> Group
+										<input type="radio" name="permissions" id="permissions" value="group" checked> Group
 									</div>
 									<div class="radio">
-										<input type="radio" name="permissions" id="permissions" value="1"> Full
+										<input type="radio" name="permissions" id="permissions" value="full"> Full
 									</div>
     							</div>
 	        				</div>

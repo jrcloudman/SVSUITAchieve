@@ -4,7 +4,7 @@ USE `svsuitachieve_db`;
 --
 -- Host: 127.0.0.1    Database: svsuitachieve_db
 -- ------------------------------------------------------
--- Server version	5.5.24-log
+-- Server version	5.6.12-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -31,9 +31,9 @@ CREATE TABLE `admin` (
   `username` varchar(45) NOT NULL,
   `password` char(102) NOT NULL,
   `dateAdded` date DEFAULT NULL,
-  `permissions` int(11) NOT NULL,
+  `permissions` varchar(10) NOT NULL,
   PRIMARY KEY (`adminId`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -75,7 +75,7 @@ CREATE TABLE `badge` (
   PRIMARY KEY (`badgeId`),
   KEY `groupId` (`groupId`),
   CONSTRAINT `badge_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `studentgroup` (`groupId`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,7 +93,7 @@ CREATE TABLE `badgegroup` (
   PRIMARY KEY (`badgegroupId`),
   KEY `groupId` (`groupId`),
   CONSTRAINT `badgegroup_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `studentgroup` (`groupId`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,7 +123,7 @@ CREATE TABLE `student` (
   UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `groupId` (`groupId`),
   CONSTRAINT `student_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `studentgroup` (`groupId`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,7 +157,7 @@ CREATE TABLE `studentgroup` (
   `dateAdded` date NOT NULL,
   PRIMARY KEY (`groupId`),
   KEY `groupId` (`groupId`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -169,4 +169,4 @@ CREATE TABLE `studentgroup` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-30  2:29:03
+-- Dump completed on 2014-08-05 17:20:14

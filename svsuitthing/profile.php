@@ -83,6 +83,7 @@
 					else {
 						$expectedGrad = NULL;
 					}
+					if($_SESSION['permissions'] == $_SESSION['studentId'])
 					echo '<li class="editProfileLink"><span class="glyphicon glyphicon-pencil"></span><a href="#">Edit Profile...</a></li>';
 					echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Start Date"><span class="glyphicon glyphicon-calendar"></span>' . $startDate .'</li>';
 					echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Email"><span class="glyphicon glyphicon-envelope"></span><a href="mailto:'. $student['username'] . '@svsu.edu">'. $student['username'] . '@svsu.edu</a></li>';

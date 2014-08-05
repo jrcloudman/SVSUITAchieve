@@ -17,7 +17,7 @@
 		if(validate_password($password, $row['password'])) {
 			$_SESSION['studentId'] = $row['studentId'];
 			$_SESSION['username'] = $row['username'];
-			$_SESSION['permissions'] = '3';
+			$_SESSION['permissions'] = 'student';
 			echo 'valid';
 		}
 		else echo 'invalid';
@@ -28,14 +28,6 @@
 			$_SESSION['adminId'] = $row['adminId'];
 			$_SESSION['username'] = $row['username'];
 			$_SESSION['permissions'] = $row['permissions'];
-			// if($_SESSION['permissions'] == 2) {
-			// 	$adminId = $row['adminId'];
-			// 	$sql = "SELECT * FROM admin_group WHERE adminId=$adminId";
-			// 	$groups = mysqli_query($dbc, $sql);
-			// 	while($row = mysqli_fetch_assoc($groups)) {
-			// 		$_SESSION['groups'][] = $row['groupId'];
-			// 	}
-			// }
 			echo 'valid';
 		}
 		else echo 'invalid';

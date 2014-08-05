@@ -8,16 +8,14 @@
                     <li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Groups <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li class="dropdown-header">IT Support Center</li>
-							<li><a href="profile.php?groupId=16">REC/HHS</a></li>
-							<li><a href="#">Main Campus</a></li>
-							<li class="divider"></li>
-							<li class="dropdown-header">Desktop and Printers</li>
-							<li><a href="#">Lab Assistants</a></li>
-							<li><a href="#">Support Assistants</a></li>
-							<li class="divider"></li>
-							<li class="dropdown-header">Other Group</li>
-							<li><a href="#">Other Subgroup</a></li>
+							<?php
+								require_once('lib/mysqli_connect.php');
+								$sql = "SELECT * FROM studentgroup ORDER BY groupName";
+								$result = mysqli_query($dbc, $sql);
+								while($row = mysqli_fetch_assoc($result)) {
+									echo '<li><a href="profile.php?groupId=' . $row['groupId'] . '">' . $row['groupName'] . "</a></li>";
+								}
+							?>
 						</ul>
 					</li>
                 </ul>
