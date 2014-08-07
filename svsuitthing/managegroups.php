@@ -1,3 +1,9 @@
+<?php 
+	require_once('checkloggedin.php'); 
+	if($_SESSION['permissions'] != 'full') {
+		header ("Location: unauthorized.php");
+	}
+?>
 <!DOCTYPE html>
 <html>
 <head>

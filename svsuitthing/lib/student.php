@@ -66,12 +66,11 @@
 							}
 							while (file_exists("../images/badges/" . $profileImage));
 							move_uploaded_file($_FILES["profileImage"]["tmp_name"], "../images/profile/" . $profileImage);
-							$profileImage = "'$profileImage'";
-							$sql += ", profileImage='$profileImage'";
+							$sql .= ", profileImage='$profileImage'";
 						}
 					}
 
-					$sql += " WHERE studentId=$studentId";
+					$sql .= " WHERE studentId=$studentId";
 					mysqli_query($dbc, $sql);
 					echo $sql;
 					break;

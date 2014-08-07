@@ -5,7 +5,6 @@ $(function() {
 		event.preventDefault();
 		var formData = $(this).serialize();
 		$.post("lib/admin.php", formData, function( data ) {
-			alert(data);
 	  		location.reload();
 		});
 	});
@@ -15,7 +14,7 @@ $(function() {
 		$('#myModalLabel').html("Add New Administrator");
 		$('#action').val('add');
 		$('#adminForm').find('input[type=text], textarea, select').val('');
-		$('input[name="permissions"][value="2"]').prop('checked', true);
+		$('input[name="permissions"][value="group"]').prop('checked', true);
 		$('#groups').prop('disabled', false);
 		$('#groups').selectpicker('deselectAll');
 		$('#groups').selectpicker('refresh');
@@ -43,7 +42,7 @@ $(function() {
 			$('#username').val(data.username);
 			$('input[name="permissions"]:checked').prop('checked', false);
 			$('input[name="permissions"][value="' + data.permissions + '"]').prop('checked', true);
-			if(data.permissions == '2') {
+			if(data.permissions == 'group') {
 				$('#groups').prop('disabled', false);
 				$('#groups').selectpicker('val', data.groups);
 			}
@@ -65,7 +64,7 @@ $(function() {
 	});
 
 	$('input:radio[name="permissions"]').change(function() {
-		if($(this).val() == '2') {
+		if($(this).val() == 'group') {
 			$('#groups').prop('disabled', false);
 		}
 		else {

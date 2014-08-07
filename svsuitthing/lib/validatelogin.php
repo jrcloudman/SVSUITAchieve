@@ -15,7 +15,7 @@
 	if(mysqli_num_rows($students) > 0) {
 		$row = mysqli_fetch_assoc($students);
 		if(validate_password($password, $row['password'])) {
-			$_SESSION['studentId'] = $row['studentId'];
+			$_SESSION['userId'] = $row['studentId'];
 			$_SESSION['username'] = $row['username'];
 			$_SESSION['permissions'] = 'student';
 			echo 'valid';
@@ -25,7 +25,7 @@
 	else if(mysqli_num_rows($admins) > 0) {
 		$row = mysqli_fetch_assoc($admins);
 		if(validate_password($password, $row['password'])) {
-			$_SESSION['adminId'] = $row['adminId'];
+			$_SESSION['userId'] = $row['adminId'];
 			$_SESSION['username'] = $row['username'];
 			$_SESSION['permissions'] = $row['permissions'];
 			echo 'valid';

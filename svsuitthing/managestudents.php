@@ -1,4 +1,9 @@
-<?php session_start();?>
+<?php 
+	require_once('checkloggedin.php'); 
+	if($_SESSION['permissions'] == 'student') {
+		header ("Location: unauthorized.php");
+	}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,10 +24,16 @@
 				<ul class="nav nav-tabs">
 					<?php
 						require_once('lib/mysqli_connect.php');
-						$adminId = $_SESSION['adminId'];
-						$sql = "SELECT studentgroup.groupId, studentgroup.groupName
-								FROM studentgroup
-								JOIN admin_group ON studentgroup.groupId = admin_group.groupId AND admin_group.adminId = $adminId";
+						$adminId = $_SESSION['userId'];
+
+						if($_SESSION['permissions'] == 'full') {
+							$sql = "SELECT groupId, groupName FROM studentgroup";
+						}
+						else {
+							$sql = "SELECT studentgroup.groupId, studentgroup.groupName
+									FROM studentgroup
+									JOIN admin_group ON studentgroup.groupId = admin_group.groupId AND admin_group.adminId = $adminId";
+						}
 						$result = mysqli_query($dbc, $sql);
 						$first = true;
 						$groups = array();

@@ -9,17 +9,30 @@ $(function() {
 			processData: false,
 			contentType: false
 		}).done(function(data) {
+			alert(data);
 			location.reload(); 
 		});
 	});
 	$('.tooltipped').tooltip();
 	$('.badgeImage').tooltip();
-	$('.badgeImage').click(function() {
+	$('.manageableBadge').click(function() {
+		var image = $(this);
+		var id = $(this).attr('id');
+		var studentId = id.substring(0, id.indexOf('_'));
+		var badgeId = id.substring(id.indexOf('_') + 1)
+		var postData = "studentId=" + studentId + "&badgeId=" + badgeId + "&action="; 
+
 		if($(this).hasClass('faded')) {
-			$(this).removeClass('faded');
+			postData += "award";
+			$.post("lib/awardbadge.php", postData, function(data) {
+				image.removeClass('faded');
+			});
 		}
 		else {
-			$(this).addClass('faded');
+			postData += "remove";
+			$.post("lib/awardbadge.php", postData, function(data) {
+				image.addClass('faded');
+			});
 		}
 	});
 	

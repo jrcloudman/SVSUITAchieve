@@ -1,5 +1,5 @@
 <?php 
-	session_start(); 
+	require_once('checkloggedin.php');
 	require_once('lib/mysqli_connect.php'); 
 	$groupId = mysqli_real_escape_string($dbc, $_GET['groupId']);
 	$sql = "SELECT * FROM badge WHERE groupId=$groupId ORDER BY badgegroupId, difficulty";
@@ -13,6 +13,22 @@
 	$result = mysqli_query($dbc, $sql);
 	while($row = mysqli_fetch_assoc($result)) {
 		$badgegroups[] = $row;
+	}
+
+	$thisGroupAdmin = false;
+	if($_SESSION['permissions'] == 'full') {
+		$thisGroupAdmin = true;
+	}
+	else if($_SESSION['permissions'] == 'group') {
+		$adminId = $_SESSION['userId'];
+		$sql = "SELECT studentgroup.groupId, studentgroup.groupName
+				FROM studentgroup
+				JOIN admin_group ON studentgroup.groupId = admin_group.groupId AND admin_group.adminId = $adminId";
+		$result = mysqli_query($dbc, $sql);
+		while($group = mysqli_fetch_assoc($result)) {
+			if($group['groupId'] == $_GET['groupId']) 
+				$thisGroupAdmin = true;
+		}
 	}
 ?>
 <!DOCTYPE html>
@@ -38,7 +54,6 @@
 		<hr />
 		<ul class="nav nav-tabs">
 			<?php
-				$adminId = $_SESSION['adminId'];
 				$sql = "SELECT * FROM student WHERE groupId=$groupId";
 				$result = mysqli_query($dbc, $sql);
 				$first = true;
@@ -83,8 +98,14 @@
 					else {
 						$expectedGrad = NULL;
 					}
-					if($_SESSION['permissions'] == $_SESSION['studentId'])
-					echo '<li class="editProfileLink"><span class="glyphicon glyphicon-pencil"></span><a href="#">Edit Profile...</a></li>';
+					if($_SESSION['permissions'] == 'student') {
+						if($_SESSION['userId'] == $student['studentId']) {
+							echo '<li class="editProfileLink"><span class="glyphicon glyphicon-pencil"></span><a href="#">Edit Profile...</a></li>';
+						}
+					}
+					else if($thisGroupAdmin) {
+						echo '<li class="editProfileLink"><span class="glyphicon glyphicon-pencil"></span><a href="#">Edit Profile...</a></li>';
+					}
 					echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Start Date"><span class="glyphicon glyphicon-calendar"></span>' . $startDate .'</li>';
 					echo '<li class="tooltipped" data-toggle="tooltip" data-placement="left" title="Email"><span class="glyphicon glyphicon-envelope"></span><a href="mailto:'. $student['username'] . '@svsu.edu">'. $student['username'] . '@svsu.edu</a></li>';
 					if(isset($student['major'])) {
@@ -142,6 +163,9 @@
 										echo '<tr>';
 										while(isset($badges[$j]) && $badges[$j]['badgegroupId'] == $badgegroups[$i]['badgegroupId']) {
 											echo '<td><img src="images/badges/' . $badges[$j]['imageFile'] . '" class="badgeImage ';
+											if($thisGroupAdmin) {
+												echo 'manageableBadge ';
+											}
 											if(!in_array($badges[$j]['badgeId'], $earnedBadges)) {
 												echo 'faded';
 											}

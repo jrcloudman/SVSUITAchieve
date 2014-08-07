@@ -1,6 +1,5 @@
 <?php
 	require_once('mysqli_connect.php');
-	require_once('PasswordHash.php');
 	if($_SERVER['REQUEST_METHOD'] == 'GET') {
 		$badgeId = mysqli_real_escape_string($dbc, $_GET['badgeId']);
 		$sql = "SELECT * FROM badge WHERE badgeId=$badgeId";
