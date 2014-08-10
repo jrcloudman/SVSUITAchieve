@@ -1,15 +1,35 @@
 $(function() {
+	$.validator.messages.required = 'Required';
+	var validator = 
+	$('#adminForm').validate({
+	    rules: {
+	        firstName: "required",
+	        lastName: "required",
+	        username: "required",
+	        tempPassword: "required"
+	    },
+	    highlight: function(element) {
+	        $(element).closest('.form-group').addClass('has-error');
+	    },
+	    unhighlight: function(element) {
+	        $(element).closest('.form-group').removeClass('has-error');
+	    }
+	});
+
 	$('.selectpicker').selectpicker();
-	
 	$('#adminForm').submit(function(event) {
 		event.preventDefault();
-		var formData = $(this).serialize();
-		$.post("lib/admin.php", formData, function( data ) {
-	  		location.reload();
-		});
+		if($(this).valid()) {
+			var formData = $(this).serialize();
+			$.post("lib/admin.php", formData, function( data ) {
+		  		location.reload();
+			});
+		}
 	});
 
 	$('#newAdminBtn').click(function() {
+		validator.resetForm();
+		$('.form-group').removeClass('has-error');
 		$('#adminFormSubmit').html('Add');
 		$('#myModalLabel').html("Add New Administrator");
 		$('#action').val('add');
@@ -25,6 +45,8 @@ $(function() {
 	});
 	
 	$('.admin_table tr:not(#tableHeader)').click(function() {
+		validator.resetForm();
+		$('.form-group').removeClass('has-error');
 		var adminId = $(this).find('td.adminId').html();
 		$('#myModalLabel').html("Edit Administrator #" + adminId);
 		$('#adminFormSubmit').html('Save Changes');

@@ -1,13 +1,31 @@
 $(function() {
+	$.validator.messages.required = 'Required';
+	var validator = 
+	$('#groupForm').validate({
+	    rules: {
+	        groupName: "required"
+	    },
+	    highlight: function(element) {
+	        $(element).closest('.form-group').addClass('has-error');
+	    },
+	    unhighlight: function(element) {
+	        $(element).closest('.form-group').removeClass('has-error');
+	    }
+	});
+
 	$('#groupForm').submit(function(event) {
 		event.preventDefault();
-		var formData = $(this).serialize();
-		$.post("lib/group.php", formData, function( data ) {
-	  		location.reload();
-		});
+		if($(this).valid()) {
+			var formData = $(this).serialize();
+			$.post("lib/group.php", formData, function( data ) {
+		  		location.reload();
+			});
+		}
 	});
 
 	$('#newGroupBtn').click(function() {
+		validator.resetForm();
+		$('.form-group').removeClass('has-error');
 		$('#groupFormSubmit').html('Add');
 		$('#myModalLabel').html("Add New Group");
 		$('#action').val('add');
@@ -16,6 +34,8 @@ $(function() {
 	});
 	
 	$('.admin_table tr:not(#tableHeader)').click(function() {
+		validator.resetForm();
+		$('.form-group').removeClass('has-error');
 		var groupId = $(this).find('td.groupId').html();
 		$('#myModalLabel').html("Edit Group #" + groupId);
 		$('#groupFormSubmit').html('Save Changes');

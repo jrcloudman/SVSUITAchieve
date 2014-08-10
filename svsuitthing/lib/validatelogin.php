@@ -1,7 +1,5 @@
 <?php
 	session_start();
-	session_destroy();
-	session_start();
 	require_once('mysqli_connect.php');
 	require_once('PasswordHash.php');
 	$username = mysqli_real_escape_string($dbc, $_POST["username"]);

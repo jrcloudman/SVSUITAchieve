@@ -6,7 +6,7 @@
 	margin-bottom: 15px;
 }
 
-#loginFormContainer {
+#loneFormContainer {
 	margin: 0 auto;
 	float: none;
 }
@@ -100,4 +100,8 @@
     background: white;
     cursor: inherit;
     display: block;
+}
+
+.error {
+	color: #ff4136;
 }

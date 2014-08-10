@@ -143,7 +143,7 @@
 									</div>    							
 								</div>
         					</div>
-	        				<div class="form-group">
+	        				<div class="form-group" id="expDateFormGroup">
     							<label for="expirationDate" class="col-md-4 control-label">Expiration Date</label>
     							<div class="col-md-7">
 	        						<input type="text" class="form-control" id="expirationDate" name="expirationDate" placeholder="Expiration Date" disabled>
@@ -223,6 +223,7 @@
 	<script src="scripts/moment.min.js"></script>
 	<script src="scripts/bootstrap-datetimepicker.js"></script>
 	<script src="scripts/bootstrap-colorpicker.min.js"></script>
+	<script src="scripts/jquery.validate.min.js"></script>
 	<script src="scripts/managebadges.js"></script>
 </body>
 </html>

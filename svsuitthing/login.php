@@ -20,7 +20,7 @@
 		</div>
 	</div>
 	<div class="container body-content">
-		<div class="col-md-6 well" id="loginFormContainer">
+		<div class="col-md-6 well" id="loneFormContainer">
 			<form class="form-horizontal" id="loginForm" action="lib/validatelogin.php" method="post">
 				<legend>Login</legend>
 				<div class="alert alert-danger" role="alert" id="loginAlert" hidden>Your username or password is incorrect</div>

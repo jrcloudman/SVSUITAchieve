@@ -116,6 +116,7 @@
 	<script src="scripts/jquery-1.11.0.min.js"></script>
 	<script src="scripts/bootstrap.min.js"></script>
 	<script src="scripts/bootstrap-select.min.js"></script>
+	<script src="scripts/jquery.validate.min.js"></script>
 	<script src="scripts/manageadmins.js"></script>
 </body>
 </html>

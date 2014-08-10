@@ -1,4 +1,22 @@
 $(function() {
+	$.validator.messages.required = 'Required';
+	var badgeValidator = 
+	$('#badgeForm').validate({
+	    rules: {
+	        badgeName: "required",
+	        badgeDescription: "required",
+	        expirationDate: {
+	        	required: '#recurring:checked'
+	        }
+	    },
+	    highlight: function(element) {
+	        $(element).closest('.form-group').addClass('has-error');
+	    },
+	    unhighlight: function(element) {
+	        $(element).closest('.form-group').removeClass('has-error');
+	    }
+	});
+
 	$('.tooltipped').tooltip();
 	$('#badgeGroup').selectpicker();
 	$('#difficulty').selectpicker();
@@ -9,16 +27,18 @@ $(function() {
 
 	$('#badgeForm').submit(function(event) {
 		event.preventDefault();
-		var formData = $(this).serialize();
-		$.ajax( {
-			url: "lib/badge.php",
-			type: 'post',
-			data: new FormData(this),
-			processData: false,
-			contentType: false
-		}).done(function(data) {
-			location.reload(); 
-		});
+		if($(this).valid()) {
+			var formData = $(this).serialize();
+			$.ajax( {
+				url: "lib/badge.php",
+				type: 'post',
+				data: new FormData(this),
+				processData: false,
+				contentType: false
+			}).done(function(data) {
+				location.reload(); 
+			});
+		}
 	});
 
 	$("#badgegroupForm").submit(function(event) {
@@ -29,6 +49,8 @@ $(function() {
 		});
 	});
 	$('#newBadgeBtn').click(function() {
+		badgeValidator.resetForm();
+		$('.form-group').removeClass('has-error');
 		$('#badgeFormSubmit').html('Add');
 		var tab = $('ul.nav-tabs').find('li.active a');
 		var groupName = tab.html();
@@ -46,6 +68,8 @@ $(function() {
 	});
 
 	$('.admin_table tr:not(#tableHeader)').click(function() {
+		badgeValidator.resetForm();
+		$('.form-group').removeClass('has-error');
 		var badgeId = $(this).attr('id');
 		var tab = $('ul.nav-tabs').find('li.active a');
 		var groupId = tab.attr('href').match(/\d+$/)[0];
@@ -85,6 +109,8 @@ $(function() {
 		}
 		else {
 			$('#expirationDate').prop('disabled', true);
+			badgeValidator.element("#expirationDate");
+			$('#expDateFormGroup').removeClass('has-error');
 		}
 		$('#expirationDate').val('');
 	});

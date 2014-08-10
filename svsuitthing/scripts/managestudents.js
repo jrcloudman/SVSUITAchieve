@@ -1,4 +1,22 @@
 $(function() {	
+	$.validator.messages.required = 'Required';
+	var validator = 
+	$('#studentForm').validate({
+	    rules: {
+	        firstName: "required",
+	        lastName: "required",
+	        username: "required",
+	        startDate: "required",
+	        tempPassword: "required"
+	    },
+	    highlight: function(element) {
+	        $(element).closest('.form-group').addClass('has-error');
+	    },
+	    unhighlight: function(element) {
+	        $(element).closest('.form-group').removeClass('has-error');
+	    }
+	});
+
 	$('#startDate').datetimepicker({
 		pickTime: false
 	});
@@ -7,7 +25,7 @@ $(function() {
 		event.preventDefault();
 		$("#studentForm").validate();
 		
-		if($("#studentForm").valid()) {
+		if($(this).valid()) {
 			var formData = $(this).serialize();
 			$.post("lib/student.php", formData, function( data ) {
 		  		location.reload();
@@ -16,6 +34,8 @@ $(function() {
 	});
 
 	$('#newStudentBtn').click(function() {
+		validator.resetForm();
+		$('.form-group').removeClass('has-error');
 		$('#studentFormSubmit').html('Add');
 		var tab = $('ul.nav-tabs').find('li.active a');
 		var groupName = tab.html();
@@ -31,6 +51,8 @@ $(function() {
 	});
 	
 	$('.admin_table tr:not(#tableHeader)').click(function() {
+		validator.resetForm();
+		$('.form-group').removeClass('has-error');
 		var studentId = $(this).find('td.studentId').html();
 		$('#myModalLabel').html("Edit Student #" + studentId);
 		$('#studentFormSubmit').html('Save Changes');

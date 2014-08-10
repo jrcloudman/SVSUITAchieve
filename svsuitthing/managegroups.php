@@ -73,5 +73,6 @@
 	<script src="scripts/bootstrap.min.js"></script>
 	<script src="scripts/bootstrap-select.min.js"></script>
 	<script src="scripts/managegroups.js"></script>
+	<script src="scripts/jquery.validate.min.js"></script>
 </body>
 </html>

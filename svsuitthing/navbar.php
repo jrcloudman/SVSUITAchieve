@@ -25,6 +25,7 @@
 							echo '<li><a href="managestudents.php">Admin Panel</a></li>';
 						}
 					?>
+					<li><a href="changepassword.php">Change Password</a></li>
 					<li><a href="logout.php">Log Out</a></li>
 				</ul>
             </div>
