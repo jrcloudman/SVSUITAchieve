@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php session_start(); 
+	if (isset($_SESSION['userId']) && $_SESSION['userId'] != '') {
+		header ("Location: index.php");
+		exit();
+	}
+?>
 <!DOCTYPE html>
 <html>
 <head>

@@ -69,7 +69,13 @@
 						echo '</tbody></table></div>';
 					}				
 				?>
-				<button class="btn btn-primary" data-toggle="modal" data-target="#studentModal" id="newStudentBtn">Add Student</button>
+				<?php if(count($groups) > 0) { ?>
+					<button class="btn btn-primary" data-toggle="modal" data-target="#studentModal" id="newStudentBtn">Add Student</button>
+				<?php 
+				} 
+				else {
+					echo "You are not an administrator of any groups";
+				}  ?>
 			</div>
 		</div>
 		<div class="modal fade" id="studentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

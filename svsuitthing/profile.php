@@ -1,6 +1,11 @@
 <?php 
 	require_once('checkloggedin.php');
 	require_once('lib/mysqli_connect.php'); 
+	
+	if(!isset($_GET['groupId'])) {
+		header ("Location: notfound.php");
+		exit();
+	}
 	$groupId = mysqli_real_escape_string($dbc, $_GET['groupId']);
 	$sql = "SELECT * FROM badge WHERE groupId=$groupId ORDER BY badgegroupId, difficulty";
 	$badges = array();
@@ -47,8 +52,13 @@
 	<div class="container body-content">
 		<?php
 			$sql = "SELECT groupName FROM studentgroup WHERE groupId=$groupId";
-			$result = mysqli_fetch_assoc(mysqli_query($dbc, $sql));
-			echo '<h2>' . $result['groupName'] . '</h2>';
+			$result = mysqli_query($dbc, $sql);
+			if(mysqli_num_rows($result) == 0) {
+					header ("Location: notfound.php");
+					exit();
+			}
+			$row = mysqli_fetch_assoc($result);
+			echo '<h2>' . $row['groupName'] . '</h2>';
 		?>
 		<hr />
 		<ul class="nav nav-tabs">

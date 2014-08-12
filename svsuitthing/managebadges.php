@@ -50,8 +50,14 @@
 						}
 					?>
 				</ul>
+				<?php if(count($groups) > 0) { ?>
 				<button class="btn btn-primary" data-toggle="modal" data-target="#badgeModal" id="newBadgeBtn">Add New Badge</button>
 				<button class="btn btn-primary" data-toggle="modal" data-target="#badgegroupModal" id="manageBadgegroupsBtn">Manage Badge Groups</button><br /><br />
+				<?php 
+				} 
+				else {
+					echo "You are not an administrator of any groups";
+				}  ?>
 				<div class="tab-content">
 				<?php
 					$first = true;

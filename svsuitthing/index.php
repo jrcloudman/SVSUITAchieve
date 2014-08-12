@@ -24,8 +24,9 @@
 						$studentId = $_SESSION['userId'];
 						$sql = "SELECT badge.badgeName, badge.imageFile, badge.badgeDescription
 								FROM badge, student_badge
-								WHERE student_badge.studentId = $studentId AND badge.badgeId = student_badge.badgeId AND student_badge.dateEarned BETWEEN date_sub(now(),INTERVAL 1 WEEK) and now()
-								ORDER BY student_badge.dateEarned";
+								WHERE student_badge.studentId = $studentId AND badge.badgeId = student_badge.badgeId AND student_badge.dateEarned
+								ORDER BY student_badge.dateEarned
+								LIMIT 10";
 						$result = mysqli_query($dbc, $sql);
 						while($row = mysqli_fetch_assoc($result)) {
 							echo '<tr><td><img src="images/badges/' . $row['imageFile'] . '" class="admin_badge"></td><td>' . $row['badgeName'] . '</td><td>' . $row['badgeDescription'] . '</td></tr>';
