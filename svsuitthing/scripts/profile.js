@@ -17,8 +17,8 @@ $(function() {
 	$('.manageableBadge').click(function() {
 		var image = $(this);
 		var id = $(this).attr('id');
-		var studentId = id.substring(0, id.indexOf('_'));
-		var badgeId = id.substring(id.indexOf('_') + 1)
+		var studentId = id.substring(0, id.indexOf('_')).match(/\d+$/)[0];
+		var badgeId = id.substring(id.indexOf('_') + 1).match(/\d+$/)[0];
 		var postData = "studentId=" + studentId + "&badgeId=" + badgeId + "&action="; 
 
 		if($(this).hasClass('faded')) {

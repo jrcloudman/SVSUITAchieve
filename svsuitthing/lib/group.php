@@ -1,5 +1,9 @@
-<?php
+<?php session_start();
 	require_once('mysqli_connect.php');
+	if (!(isset($_SESSION['userId']) && $_SESSION['userId'] != '') || $_SESSION['permissions'] == 'student') {
+	    header("HTTP/1.1 401 Unauthorized");
+    	exit();
+	}
 	if(isset($_POST['action']) && !empty($_POST['action'])) {
 		$action = $_POST['action'];
 		switch($action) {

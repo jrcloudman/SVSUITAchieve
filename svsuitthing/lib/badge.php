@@ -1,5 +1,9 @@
-<?php
+<?php session_start();
 	require_once('mysqli_connect.php');
+	if (!(isset($_SESSION['userId']) && $_SESSION['userId'] != '') || $_SESSION['permissions'] == 'student') {
+	    header("HTTP/1.1 401 Unauthorized");
+    	exit();
+	}
 	if($_SERVER['REQUEST_METHOD'] == 'GET') {
 		$badgeId = mysqli_real_escape_string($dbc, $_GET['badgeId']);
 		$sql = "SELECT * FROM badge WHERE badgeId=$badgeId";

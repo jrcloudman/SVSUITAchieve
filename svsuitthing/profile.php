@@ -156,15 +156,12 @@
 							echo '<div class="panel"><div class="panel-heading" style="background-color: ' . $badgegroups[$i]['color'] . ';">';
 							?>
 							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#badge_accordian_<?php echo $student['studentId'] ?>" href="#<?php echo $student['studentId'] . '_' . $badgegroups[$i]['badgegroupId']?>">
+								<a data-toggle="collapse" data-parent="#badge_accordian_<?php echo $student['studentId'] ?>" href="#s<?php echo $student['studentId'] . '_bg' . $badgegroups[$i]['badgegroupId']?>">
 									<?php echo $badgegroups[$i]['badgegroupName']; ?>
-								</a>
-								<a class="pull-right" data-toggle="collapse" data-parent="#badge_accordian_ryan" href="<?php echo $student['studentId'] . '_' . $badgegroups[$i]['badgegroupId']?>">
-									10/10 Badges Earned
 								</a>
 							</h4>
 						</div>
-						<div id="<?php echo $student['studentId'] . '_' . $badgegroups[$i]['badgegroupId']?>" class="panel-collapse collapse <?php if($first) {echo 'in'; $first=false;} ?>">
+						<div id="s<?php echo $student['studentId'] . '_bg' . $badgegroups[$i]['badgegroupId']?>" class="panel-collapse collapse <?php if($first) {echo 'in'; $first=false;} ?>">
 							<div class="panel-body">
 								<table class="table badge_table">
 									<?php
@@ -178,7 +175,7 @@
 											if(!in_array($badges[$j]['badgeId'], $earnedBadges)) {
 												echo 'faded';
 											}
-											echo '" id="' . $studentId . '_' . $badges[$j]['badgeId'] . '" data-toggle="tooltip" data-placement="top" title="' . $badges[$j]['badgeDescription'] . '"><div class="caption">' . $badges[$j]['badgeName'] . '</div></td>';
+											echo '" id="s' . $studentId . '_b' . $badges[$j]['badgeId'] . '" data-toggle="tooltip" data-placement="top" title="' . $badges[$j]['badgeDescription'] . '"><div class="caption">' . $badges[$j]['badgeName'] . '</div></td>';
 											$j++;
 											$colCount++;
 											if($colCount == 5) {

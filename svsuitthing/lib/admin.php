@@ -1,6 +1,12 @@
-<?php
+<?php session_start();
 	require_once('mysqli_connect.php');
 	require_once('PasswordHash.php');
+	
+	if (!(isset($_SESSION['userId']) && $_SESSION['userId'] != '') || $_SESSION['permissions'] == 'student') {
+	    header("HTTP/1.1 401 Unauthorized");
+    	exit();
+	}
+	
 	if($_SERVER['REQUEST_METHOD'] == 'GET') {
 		$adminId = mysqli_real_escape_string($dbc, $_GET['adminId']);
 		$sql = "SELECT firstName, lastName, username, dateAdded, permissions FROM admin WHERE adminId=$adminId";

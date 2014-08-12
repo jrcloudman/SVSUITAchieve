@@ -1,6 +1,10 @@
-<?php
+<?php session_start();
 	require_once('mysqli_connect.php');
 	require_once('PasswordHash.php');
+	if (!(isset($_SESSION['userId']) && $_SESSION['userId'] != '')) {
+	    header("HTTP/1.1 401 Unauthorized");
+    	exit();
+	}
 	if($_SERVER['REQUEST_METHOD'] == 'GET') {
 		$studentId = mysqli_real_escape_string($dbc, $_GET['studentId']);
 		$sql = "SELECT * FROM student WHERE studentId=$studentId";
@@ -50,6 +54,11 @@
 					$major = mysqli_real_escape_string($dbc, $_POST['major']);
 					$minor = mysqli_real_escape_string($dbc, $_POST['minor']);
 
+					if ($_SESSION['permissions'] == 'student' && $_SESSION['userId'] != $studentId) {
+					    header("HTTP/1.1 401 Unauthorized");
+				    	exit();
+					}
+					
 					$convDate = date("Y-m-d", strtotime($expDate));
 					$expDate = !empty($expDate) ? "'$convDate'" : "NULL";
 					$aboutMe = !empty($aboutMe) ? "'$aboutMe'" : "NULL";
