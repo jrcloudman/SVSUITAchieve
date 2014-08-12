@@ -6,7 +6,7 @@
 		$badgeId = mysqli_real_escape_string($dbc, $_POST['badgeId']);
 		switch($action) {
 			case 'award':
-				$sql = "INSERT INTO student_badge VALUES ($studentId, $badgeId)";
+				$sql = "INSERT INTO student_badge VALUES ($studentId, $badgeId, NOW())";
 				mysqli_query($dbc, $sql);
 				$sql = "UPDATE student SET allTimeBadges = allTimeBadges + 1 WHERE studentId = $studentId";
 				mysqli_query($dbc, $sql);
