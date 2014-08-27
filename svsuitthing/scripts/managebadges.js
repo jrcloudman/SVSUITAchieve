@@ -67,7 +67,8 @@ $(function() {
 		$('#difficulty').selectpicker('refresh');
 	});
 
-	$('.admin_table tr:not(#tableHeader)').click(function() {
+	$('.admin_table tbody').delegate('tr', 'click', function() {
+		console.log("click");
 		badgeValidator.resetForm();
 		$('.form-group').removeClass('has-error');
 		var badgeId = $(this).attr('id');

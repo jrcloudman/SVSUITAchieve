@@ -46,7 +46,7 @@
 						$sql = "SELECT badge.badgeName, badge.imageFile, badge.badgeDescription, student.firstName, student.lastName
 								FROM badge, student_badge, student
 								WHERE student_badge.studentId = student.studentId AND badge.badgeId = student_badge.badgeId AND student_badge.dateEarned BETWEEN date_sub(now(),INTERVAL 1 WEEK) and now()
-								ORDER BY student_badge.dateEarned
+								ORDER BY student_badge.dateEarned DESC
 								LIMIT 10";
 						$result = mysqli_query($dbc, $sql);
 						while($row = mysqli_fetch_assoc($result)) {

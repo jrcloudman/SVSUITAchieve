@@ -69,14 +69,17 @@
 						}
 						echo '" id=group' . $groupId . '>';
 						echo '<table class="table table-hover admin_table">';
-						echo '<thead><tr><th>Image</th><th>Name</th><th>Description</th><th>Type</th><th>Badge Group</th><th>Date Added</th></tr></thead>';
+						echo '<thead><tr><th>Image</th><th>Name</th><th>Description</th><th>Type</th><th>Badge Group</th><th>Date Added</th><th>Expiration Date</th></tr></thead>';
 						echo '<tbody>';
-						$sql = "SELECT badge.badgeId, badge.imageFile, badge.badgeName, badge.badgeDescription, badge.badgeType, badge.groupId, badge.dateAdded, badgegroup.badgegroupName
+						$sql = "SELECT badge.badgeId, badge.imageFile, badge.badgeName, badge.badgeDescription, badge.badgeType, badge.groupId, badge.dateAdded, badge.expirationDate, badgegroup.badgegroupName
 								FROM badge, badgegroup
 								WHERE badge.badgegroupId = badgegroup.badgegroupId AND badge.groupId = $groupId";
 						$result = mysqli_query($dbc, $sql);
 						while($row = mysqli_fetch_assoc($result)) {
-							echo '<tr id="' . $row['badgeId'] . '"><td><img src="images/badges/' . $row['imageFile'] . '" class="admin_badge" /></td><td>' . $row['badgeName'] . '</td><td>' . $row['badgeDescription'] . '</td><td>' . $row['badgeType'] . '</td><td>' . $row['badgegroupName'] . '</td><td>' . $row['dateAdded'] . '</td></tr>';
+							echo '<tr id="' . $row['badgeId'] . '"><td><img src="images/badges/' . $row['imageFile'] . '" class="admin_badge" /></td><td>' . $row['badgeName'] . '</td><td>' . $row['badgeDescription'] . '</td><td>' . $row['badgeType'] . '</td><td>' . $row['badgegroupName'] . '</td><td>' . $row['dateAdded'] . '</td><td>';
+							if($row['expirationDate'] != NULL) echo $row['expirationDate'];
+							else echo 'None';
+							echo '</td></tr>';
 						}
 						echo '</tbody></table></div>';
 					}				

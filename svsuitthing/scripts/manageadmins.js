@@ -44,7 +44,7 @@ $(function() {
 		$('#tempPassword').prop('disabled', false);
 	});
 	
-	$('.admin_table tr:not(#tableHeader)').click(function() {
+	$('.admin_table tbody tr').click(function() {
 		validator.resetForm();
 		$('.form-group').removeClass('has-error');
 		var adminId = $(this).find('td.adminId').html();

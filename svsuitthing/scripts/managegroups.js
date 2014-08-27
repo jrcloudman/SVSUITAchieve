@@ -33,7 +33,7 @@ $(function() {
 		$('#groupFormDelete').hide();
 	});
 	
-	$('.admin_table tr:not(#tableHeader)').click(function() {
+	$('.admin_table tbody tr').click(function() {
 		validator.resetForm();
 		$('.form-group').removeClass('has-error');
 		var groupId = $(this).find('td.groupId').html();

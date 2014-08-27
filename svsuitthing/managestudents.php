@@ -61,7 +61,7 @@
 						echo '<table class="table table-hover admin_table">';
 						echo '<thead><tr><th>Id</th><th>First Name</th><th>Last Name</th><th>Username</th><th>Start Date</th><th>Date Added</th></tr></thead>';
 						echo '<tbody>';
-						$sql = "SELECT studentId, firstName, lastName, username, startDate, dateAdded FROM student WHERE groupId=$groupId";
+						$sql = "SELECT studentId, firstName, lastName, username, startDate, dateAdded FROM student WHERE groupId=$groupId ORDER BY lastName";
 						$result = mysqli_query($dbc, $sql);
 						while($row = mysqli_fetch_assoc($result)) {
 							echo '<tr><td class="studentId">' . $row['studentId'] . '</td><td>' . $row['firstName'] . '</td><td>' . $row['lastName'] . '</td><td>' . $row['username'] . '</td><td>' . $row['startDate'] . '</td><td>' . $row['dateAdded'] . '</td></tr>';

@@ -50,7 +50,7 @@ $(function() {
 		$('#groupId').val(groupId);
 	});
 	
-	$('.admin_table tr:not(#tableHeader)').click(function() {
+	$('.admin_table tbody tr').click(function() {
 		validator.resetForm();
 		$('.form-group').removeClass('has-error');
 		var studentId = $(this).find('td.studentId').html();

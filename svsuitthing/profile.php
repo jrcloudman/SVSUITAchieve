@@ -63,7 +63,7 @@
 		<hr />
 		<ul class="nav nav-tabs">
 			<?php
-				$sql = "SELECT * FROM student WHERE groupId=$groupId";
+				$sql = "SELECT * FROM student WHERE groupId=$groupId ORDER BY lastName";
 				$result = mysqli_query($dbc, $sql);
 				$first = true;
 				$students = array();
